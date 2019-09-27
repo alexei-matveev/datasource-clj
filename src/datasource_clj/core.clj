@@ -1,18 +1,5 @@
 ;;
-;; Your backend needs to implement 4 urls [1]:
-;;
-;; / should return 200 ok. Used for "Test connection" on the
-;; datasource config page.
-;;
-;; /search used by the find metric options on the query tab in panels.
-;;
-;; /query should return metrics based on input.
-;;
-;; /annotations should return annotations.
-;;
-;; /tag-keys should return tag keys for ad hoc filters.
-;;
-;; /tag-values should return tag values for ad hoc filters.
+;; A backend for SimpleJson Plugin needs to implement 4 urls [1]:
 ;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
 ;;
@@ -67,11 +54,19 @@
   (response nil))
 
 (cc/defroutes routes
+  ;; / should return 200 ok. Used for "Test connection" on the
+  ;; datasource config page.
   (cc/ANY "/" [] "Hello from Clojure data source!")
+  ;; /search used by the find metric options on the query tab in
+  ;; panels.
   (cc/ANY "/search" request (search request))
+  ;; /query should return metrics based on input.
   (cc/ANY "/query" request (query request))
+  ;; /annotations should return annotations.
   (cc/ANY "/annotations" request (not-implemented request))
+  ;; /tag-keys should return tag keys for ad hoc filters.
   (cc/ANY "/tag-keys" request (not-implemented request))
+  ;; /tag-values should return tag values for ad hoc filters.
   (cc/ANY "/tag-values" request (not-implemented request))
   (route/not-found "Page not found"))
 
