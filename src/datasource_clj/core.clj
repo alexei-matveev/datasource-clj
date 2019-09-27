@@ -35,23 +35,23 @@
 
 ;; Example Query:
 (comment
-  {"range" {"from" "2019-09-27T15:29:36.141Z",
-            "to" "2019-09-27T21:29:36.141Z",
-            "raw" {"from" "now-6h", "to" "now"}},
-   "scopedVars" {"__interval" {"text" "1m", "value" "1m"},
-                 "__interval_ms" {"text" "60000", "value" 60000}},
-   "panelId" 2,
-   "maxDataPoints" 480,
-   "timezone" "",
-   "cacheTimeout" nil,
-   "requestId" "Q114",
-   "interval" "1m",
-   "startTime" 1569619776148,
-   "targets" [{"target" "aaa", "refId" "A", "hide" false, "type" "timeserie"}],
-   "intervalMs" 60000,
-   "rangeRaw" {"from" "now-6h", "to" "now"},
-   "dashboardId" nil,
-   "adhocFilters" []})
+  {:range {:from "2019-09-27T15:45:46.373Z",
+           :to "2019-09-27T21:45:46.376Z",
+           :raw {:from "now-6h", :to "now"}},
+   :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
+   :maxDataPoints 480,
+   :panelId 2,
+   :cacheTimeout nil,
+   :timezone "",
+   :startTime 1569620746383,
+   :rangeRaw {:from "now-6h", :to "now"},
+   :intervalMs 60000,
+   :adhocFilters [],
+   :requestId "Q116",
+   :dashboardId nil,
+   :interval "1m",
+   :scopedVars {:__interval {:text "1m", :value "1m"},
+                :__interval_ms {:text "60000", :value 60000}}})
 (defn query [request]
   (pprint request)
   (let [body (:body request)
