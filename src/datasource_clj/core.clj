@@ -55,9 +55,9 @@
 (defn query [request]
   (pprint request)
   (let [body (:body request)
-        targets (body "targets")
+        targets (:targets body)
         data (for [t targets]
-               {:target (t "target")
+               {:target (:target t)
                 :datapoints []})]
     (pprint data)
     (response data)))
@@ -77,7 +77,7 @@
 
 (def app
   (-> routes
-      wrap-json-body
+      (wrap-json-body {:keywords? true :bigdecimals? true})
       wrap-json-response))
 
 (defn go []
