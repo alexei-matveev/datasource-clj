@@ -4,7 +4,14 @@ A Clojure library designed to ... well, that part is up to you.
 
 ## Usage
 
-FIXME
+Start Grafana
+
+    docker run -d -p 3000:3000 --name=grafana \
+        -e "GF_INSTALL_PLUGINS=grafana-simple-json-datasource" grafana/grafana
+
+and configure a SimpleJson Datasource pointing to your host,
+e.g. http://192.168.0.1:8080. Beware that localhost inside a Docker
+container does not point to the Docker Host.
 
 ## License
 
