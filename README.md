@@ -1,6 +1,8 @@
 # datasource-clj
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure Implementation of the Data Source Backend for
+[SimpleJason](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)
+Grafana Plugin.
 
 ## Usage
 
