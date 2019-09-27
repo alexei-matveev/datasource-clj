@@ -6,6 +6,7 @@
 (ns datasource-clj.core
   (:require [ring.adapter.jetty :as jetty]
             [clojure.pprint :refer [pprint]]
+            [clojure.instant :as inst]
             [compojure.core :as cc]
             [compojure.route :as route]
             [ring.util.response :refer [response]]
@@ -20,32 +21,49 @@
                  {:text "upper_75", :value 2}]]
     (response metrics)))
 
+;; Extract time range in Milliseconds as a tuple from Grafana query:
+(defn time-range [q]
+  (let [r (:range q)]
+    (for [ts [(:from r) (:to r)]]
+      (.getTime (inst/read-instant-timestamp ts)))))
+
+(defn fake-data-poins [start end step]
+  (let [scale (* 3600 1000.0)]          ; 1h in ms
+    (for [t (range start end step)]
+      [(Math/cos (/ t scale)) t])))
+
 ;; Example Query:
 (comment
-  {:range {:from "2019-09-27T15:45:46.373Z",
-           :to "2019-09-27T21:45:46.376Z",
-           :raw {:from "now-6h", :to "now"}},
-   :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
-   :maxDataPoints 480,
-   :panelId 2,
-   :cacheTimeout nil,
-   :timezone "",
-   :startTime 1569620746383,
-   :rangeRaw {:from "now-6h", :to "now"},
-   :intervalMs 60000,
-   :adhocFilters [],
-   :requestId "Q116",
-   :dashboardId nil,
-   :interval "1m",
-   :scopedVars {:__interval {:text "1m", :value "1m"},
-                :__interval_ms {:text "60000", :value 60000}}})
+  (let [q {:range {:from "2019-09-27T15:00:12.345Z",
+                   :to   "2019-09-27T21:00:12.345Z",
+                   :raw {:from "now-6h", :to "now"}},
+           :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
+           :intervalMs 60000,
+           :interval "1m",
+           :maxDataPoints 480,
+           :panelId 2,
+           :cacheTimeout nil,
+           :timezone "",
+           :startTime 1569620746383,
+           :rangeRaw {:from "now-6h", :to "now"},
+           :adhocFilters [],
+           :requestId "Q116",
+           :dashboardId nil,
+           :scopedVars {:__interval {:text "1m", :value "1m"},
+                        :__interval_ms {:text "60000", :value 60000}}}]
+    (time-range q)))
+
 (defn query [request]
   (pprint request)
-  (let [body (:body request)
-        targets (:targets body)
-        data (for [t targets]
+  (let [q (:body request)
+        targets (:targets q)
+        [from to] (time-range q)
+        interval (:intervalMs q)
+        ;; FIXME: queries for tabular data?
+        data (for [t targets
+                   :when (= "timeserie" (:type t))]
                {:target (:target t)
-                :datapoints []})]
+                :datapoints (fake-data-poins from to interval)})]
     (pprint data)
     (response data)))
 
