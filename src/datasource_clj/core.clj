@@ -40,13 +40,14 @@
            :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
            :intervalMs 60000,
            :interval "1m",
+           :adhocFilters [{:key "age", :operator "<", :value "42", :condition "AND"}
+                          {:key "city", :operator "=", :value "Berlin"}],
            :maxDataPoints 480,
            :panelId 2,
            :cacheTimeout nil,
            :timezone "",
            :startTime 1569620746383,
            :rangeRaw {:from "now-6h", :to "now"},
-           :adhocFilters [],
            :requestId "Q116",
            :dashboardId nil,
            :scopedVars {:__interval {:text "1m", :value "1m"},
@@ -64,7 +65,7 @@
                    :when (= "timeserie" (:type t))]
                {:target (:target t)
                 :datapoints (fake-data-poins from to interval)})]
-    (pprint data)
+    #_(pprint data)
     (response data)))
 
 (defn not-implemented [request]
