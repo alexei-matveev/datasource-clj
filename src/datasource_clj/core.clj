@@ -1,6 +1,7 @@
 ;;
-;; A backend for SimpleJson Plugin needs to implement just a fewe urls
-;; [1]. The minimum is likely a / and /query.
+;; A backend for SimpleJson Plugin needs  to implement just a few urls
+;; [1]. The minimum is likely a /  and /query. A few more eyamples see
+;; Ref. [2].
 ;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
 ;; [2] https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md
