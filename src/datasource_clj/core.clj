@@ -27,6 +27,11 @@
    "noise"
    (fn [x] (rand-int 100))})
 
+;; Debug helper, print and return:
+(defn dbg [x]
+  (pprint x)
+  x)
+
 ;;
 ;; First /search request  appears to be {:target ""}  when looking vor
 ;; the possible time series names (targets). Then, as you start typing
@@ -40,7 +45,6 @@
 ;; var.
 ;;
 (defn search [request]
-  (pprint request)
   (let [metrics (keys database)    ; ["sine" "cosine" ...]
         q (:body request)
         ;; FIXME: schuld the search be rather cases insensitive?
@@ -50,8 +54,7 @@
         matcheX [{:text "sine", :value 1}
                  {:text "cosine", :value 2}
                  {:text "Can it be an arbitrary text?" :value 3}]]
-    (pprint matches)
-    matches))
+    (dbg matches)))
 
 ;; Example Query:
 (comment
@@ -113,7 +116,6 @@
                     [0.3543351256655463 1569614412345])}))
 
 (defn query [request]
-  (pprint request)
   (let [q (:body request)
         data (make-query-response q)]
     #_(pprint data)
@@ -136,49 +138,44 @@
 ;; ad hoc filter to get the list of keywords for the dropdown. FIXME:
 ;; waht is the body when content-type = nil.
 (defn tag-keys [request]
-  (pprint request)
   ;; Response should be an array of maps like this. FIXME: type string
   ;; ist not suitable for age ...
   (let [resp (for [k (keys tags)]
                {:type "string" :text k})]
-    (pprint resp)
-    resp))
+    (dbg resp)))
 
 ;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
 ;; dropdown. Example request body: {:key "city"}.
 (defn tag-values [request]
-  (pprint request)
   (let [q (:body request)
         k (:key q)
         ;; Response should be an array of maps:
         resp (for [v (get tags k)]
                {:text v})]
-    (pprint resp)
-    resp))
+    (dbg resp)))
 
 (defn not-implemented [request]
-  (pprint request)
   {:status 404
    :body "Not implemented!"})
 
 (cc/defroutes routes
   ;; / should return 200 ok. Used for "Test connection" on the
   ;; datasource config page.
-  (cc/ANY "/" [] "Hello from Clojure data source!")
+  (cc/ANY "/" [] "ok")                  ; could be any text ...
   ;; /search used by the find metric options on the query tab in
   ;; panels.
-  (cc/ANY "/search" request (search request))
+  (cc/ANY "/search" request (search (dbg request)))
   ;; /query should return metrics based on input.
-  (cc/ANY "/query" request (query request))
+  (cc/ANY "/query" request (query (dbg request)))
   ;; /annotations should return annotations.
-  (cc/ANY "/annotations" request (not-implemented request))
+  (cc/ANY "/annotations" request (not-implemented (dbg request)))
   ;; /tag-keys should return tag keys for ad hoc filters.
-  (cc/ANY "/tag-keys" request (tag-keys request))
+  (cc/ANY "/tag-keys" request (tag-keys (dbg request)))
   ;; /tag-values should return tag values for ad hoc filters.
-  (cc/ANY "/tag-values" request (tag-values request))
+  (cc/ANY "/tag-values" request (tag-values (dbg request)))
   ;; To get a chance to expose requests to new endpoints:
-  (cc/ANY "/*" request (not-implemented request)))
+  (cc/ANY "/*" request (not-implemented (dbg request))))
 
 (def app
   (-> routes
