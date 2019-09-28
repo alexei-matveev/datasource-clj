@@ -21,17 +21,6 @@
                  {:text "upper_75", :value 2}]]
     (response metrics)))
 
-;; Extract time range in Milliseconds as a tuple from Grafana query:
-(defn time-range [q]
-  (let [r (:range q)]
-    (for [ts [(:from r) (:to r)]]
-      (.getTime (inst/read-instant-timestamp ts)))))
-
-(defn fake-data-poins [start end step]
-  (let [scale (* 3600 1000.0)]          ; 1h in ms
-    (for [t (range start end step)]
-      [(Math/cos (/ t scale)) t])))
-
 ;; Example Query:
 (comment
   (def example-query
@@ -52,9 +41,22 @@
      :requestId "Q116",
      :dashboardId nil,
      :scopedVars {:__interval {:text "1m", :value "1m"},
-                  :__interval_ms {:text "60000", :value 60000}}})
+                  :__interval_ms {:text "60000", :value 60000}}}))
+
+;; Extract time range in Milliseconds as a tuple from Grafana query:
+(defn time-range [q]
+  (let [r (:range q)]
+    (for [ts [(:from r) (:to r)]]
+      (.getTime (inst/read-instant-timestamp ts)))))
+
+(comment
   (time-range example-query)
   => (1569596412345 1569618012345))
+
+(defn fake-data-poins [start end step]
+  (let [scale (* 3600 1000.0)]          ; 1h in ms
+    (for [t (range start end step)]
+      [(Math/cos (/ t scale)) t])))
 
 ;; q = Body of the /query:
 (defn make-query-response [q]
