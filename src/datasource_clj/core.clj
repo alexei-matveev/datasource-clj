@@ -13,6 +13,19 @@
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
+;; A map from target names to example functions of time:
+(def database
+  {"sine"
+   (fn [x] (Math/sin x)) ; Math/sin would look for statie *Field*
+   "cosine"
+   (fn [x] (Math/cos x))
+   "Can it be arbitrary text? Surprise me!"
+   (fn [x]
+     (let [y (- x 436005.0)] ; epoch in hours
+       (if (= y 0.0) 1.0 (/ (Math/sin y) y))) )
+   "noise"
+   (fn [x] (rand-int 100))})
+
 ;; First  /search request  appears to  be {:target  ""}. Then,  as you
 ;; start typing e.g. "cosine" letter  for letter, more specific search
 ;; requests such  as {:target  "c"}, {:target "co"},  {:target "cos"},
@@ -20,7 +33,7 @@
 (defn search [request]
   (pprint request)
   ;; FIXME: actually search?
-  (let [metrics ["sine" "cosine" "surprise me" "Can it be arbitrary text?"]
+  (let [metrics (keys database)    ; ["sine" "cosine" ...]
         ;; FIXME: this form I dont get yet:
         metricX [{:text "sine", :value 1}
                  {:text "cosine", :value 2}
@@ -65,16 +78,6 @@
     (for [t (range start end step)]
       [(f (/ t scale)) t])))
 
-(defn lookup [target-name]
-  (case target-name
-    "sine" (fn [x] (Math/sin x)) ; Math/sin would look for statie *Field*
-    "cosine" (fn [x] (Math/cos x))
-    "surprise me" (fn [x]
-                    (let [y (- x 436005.0)] ; epoch in hours
-                      (if (= y 0.0) 1.0 (/ (Math/sin y) y))) )
-    ;; FIXME: what should be the default?
-    (fn [x] (rand-int 100))))
-
 ;; q = Body of the /query:
 (defn make-query-response [q]
   (let [targets (:targets q)
@@ -82,10 +85,10 @@
         step (:intervalMs q)
         ;; FIXME: queries for tabular data?
         data (for [t targets
-                   :let [target-name (:target t)
-                         function (lookup target-name)]
+                   :let [target (:target t)
+                         function (database target (database "noise"))]
                    :when (= "timeserie" (:type t))]
-               {:target target-name
+               {:target target
                 :datapoints (fake-data-poins function start end step)})]
     data))
 
