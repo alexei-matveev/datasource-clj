@@ -87,23 +87,34 @@
   (time-range example-query)
   => (1569596412345 1569618012345))
 
-(defn fake-data-poins [f start end step]
-  (let [scale (* 3600 1000.0)]          ; 1h in ms
-    (for [t (range start end step)]
-      [(f (/ t scale)) t])))
+(defn fake-timeserie [target start end step]
+  (let [fun (database target (database "noise"))
+        scale (* 3600 1000.0)          ; 1h in ms
+        datapoints (for [t (range start end step)]
+                     [(fun (/ t scale)) t])]
+    {:target target
+     :datapoints datapoints}))
+
+(defn fake-table []
+  {:columns [{:text "Time", :type "time"},
+             {:text "Country", :type "string"},
+             {:text "Number", :type "number"}],
+   :rows [[1569618012345, "SE", 123],
+          [1569618012345, "DE", 231],
+          [1569618012345, "US", 321]],
+   :type "table"})
 
 ;; q = Body of the /query:
 (defn query [q]
   (let [targets (:targets q)
         [start end] (time-range q)
         step (:intervalMs q)
-        ;; FIXME: queries for tabular data?
-        data (for [t targets
-                   :let [target (:target t)
-                         function (database target (database "noise"))]
-                   :when (= "timeserie" (:type t))]
-               {:target target
-                :datapoints (fake-data-poins function start end step)})]
+        data (for [t targets]
+               (case (:type t)
+                 "timeserie"
+                 (fake-timeserie (:target t) start end step)
+                 "table"
+                 (fake-table)))]
     data))
 
 (comment
