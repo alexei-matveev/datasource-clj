@@ -17,7 +17,7 @@
 ;; of time:
 (def database
   {"sine"
-   (fn [x] (Math/sin x))       ; Math/sin would look for statc *Field*
+   (fn [x] (Math/sin x)) ; pointfree Math/sin would look for static *Field*
    "cosine"
    (fn [x] (Math/cos x))
    "Can it be arbitrary text? Surprise me!"
@@ -35,7 +35,7 @@
   (pprint request)
   (let [metrics (keys database)    ; ["sine" "cosine" ...]
         q (:body request)
-        ;; FIXME: schuld the earch be rather cases insensitive?
+        ;; FIXME: schuld the search be rather cases insensitive?
         regex (re-pattern (:target q))
         matches (filter (fn [s] (re-find regex s)) metrics)
         ;; FIXME: this form I dont get yet:
@@ -111,6 +111,28 @@
     #_(pprint data)
     (response data)))
 
+;; Requests for /tag-keys happen e.g.  when clicking on the LHS of the
+;; ad hoc filter to get the list of keywords for the dropdown. FIXME:
+;; waht is the body when content-type = nil.
+(defn tag-keys [request]
+  (pprint request)
+  (let [kws ["country" "city" "district" "street" "age"]]
+    ;; Response should be an array of maps:
+    (for [k kws]
+      {:type "string" :text k})))
+
+;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
+;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
+;; dropdown. Example request body: {:key "city"}.
+(defn tag-values [request]
+  (pprint request)
+  (let [q (:body request)
+        k (:key q)                      ; unused
+        values ["Berlin" "Paris" "London" "New York"]]
+    ;; Response should be an array of maps:
+    (for [v values]
+      {:text v})))
+
 (defn not-implemented [request]
   (pprint request)
   (response nil))
@@ -127,9 +149,9 @@
   ;; /annotations should return annotations.
   (cc/ANY "/annotations" request (not-implemented request))
   ;; /tag-keys should return tag keys for ad hoc filters.
-  (cc/ANY "/tag-keys" request (not-implemented request))
+  (cc/ANY "/tag-keys" request (tag-keys request))
   ;; /tag-values should return tag values for ad hoc filters.
-  (cc/ANY "/tag-values" request (not-implemented request))
+  (cc/ANY "/tag-values" request (tag-values request))
   (cr/not-found "Page not found"))
 
 (def app
