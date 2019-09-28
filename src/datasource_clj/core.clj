@@ -60,22 +60,33 @@
   (time-range example-query)
   => (1569596412345 1569618012345))
 
-(defn fake-data-poins [start end step]
+(defn fake-data-poins [f start end step]
   (let [scale (* 3600 1000.0)]          ; 1h in ms
     (for [t (range start end step)]
-      [(Math/cos (/ t scale)) t])))
+      [(f (/ t scale)) t])))
+
+(defn lookup [target-name]
+  (case target-name
+    "sine" (fn [x] (Math/sin x)) ; Math/sin would look for statie *Field*
+    "cosine" (fn [x] (Math/cos x))
+    "surprise me" (fn [x]
+                    (let [y (- x 436005.0)] ; epoch in hours
+                      (if (= y 0.0) 1.0 (/ (Math/sin y) y))) )
+    ;; FIXME: what should be the default?
+    (fn [x] (rand-int 100))))
 
 ;; q = Body of the /query:
 (defn make-query-response [q]
   (let [targets (:targets q)
-        [from to] (time-range q)
-        interval (:intervalMs q)
+        [start end] (time-range q)
+        step (:intervalMs q)
         ;; FIXME: queries for tabular data?
         data (for [t targets
+                   :let [target-name (:target t)
+                         function (lookup target-name)]
                    :when (= "timeserie" (:type t))]
-               {:target (:target t)
-                :datapoints (fake-data-poins from to interval)})]
-    #_(pprint data)
+               {:target target-name
+                :datapoints (fake-data-poins function start end step)})]
     data))
 
 (comment
