@@ -93,7 +93,7 @@
       [(f (/ t scale)) t])))
 
 ;; q = Body of the /query:
-(defn make-query-response [q]
+(defn query [q]
   (let [targets (:targets q)
         [start end] (time-range q)
         step (:intervalMs q)
@@ -107,17 +107,12 @@
     data))
 
 (comment
-  (make-query-response example-query)
+  (query example-query)
   => ({:target "cosine",
        :datapoints ([-0.7961963581657523 1569596412345]
                     [-0.5260452104331543 1569602412345]
                     [0.8969061860681147 1569608412345]
                     [0.3543351256655463 1569614412345])}))
-
-(defn query [q]
-  (let [data (make-query-response q)]
-    #_(pprint data)
-    data))
 
 ;; Tag database for ad hoc filters:
 (def tags
