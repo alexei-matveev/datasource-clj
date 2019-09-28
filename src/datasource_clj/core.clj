@@ -13,10 +13,11 @@
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
-;; A map from target names to example functions of time:
+;; Time series DB.  Here a map from target names  to example functions
+;; of time:
 (def database
   {"sine"
-   (fn [x] (Math/sin x)) ; Math/sin would look for statie *Field*
+   (fn [x] (Math/sin x))       ; Math/sin would look for statc *Field*
    "cosine"
    (fn [x] (Math/cos x))
    "Can it be arbitrary text? Surprise me!"
@@ -32,14 +33,17 @@
 ;; etc are coming ...
 (defn search [request]
   (pprint request)
-  ;; FIXME: actually search?
   (let [metrics (keys database)    ; ["sine" "cosine" ...]
+        q (:body request)
+        ;; FIXME: schuld the earch be rather cases insensitive?
+        regex (re-pattern (:target q))
+        matches (filter (fn [s] (re-find regex s)) metrics)
         ;; FIXME: this form I dont get yet:
-        metricX [{:text "sine", :value 1}
+        matcheX [{:text "sine", :value 1}
                  {:text "cosine", :value 2}
                  {:text "Can it be an arbitrary text?" :value 3}]]
-    (pprint metrics)
-    (response metrics)))
+    (pprint matches)
+    (response matches)))
 
 ;; Example Query:
 (comment
