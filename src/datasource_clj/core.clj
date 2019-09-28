@@ -133,7 +133,6 @@
    "street" []
    "age" [10 20 30]})
 
-;;
 ;; Values  of  the  custom  Dashboard variables  of  type  "Interval",
 ;; "Query",   etc.   do   not   get  passed   down   to  the   backend
 ;; automatically. Ad hoc filters, like "city = Berlin", do.
@@ -144,19 +143,19 @@
 (defn tag-keys [q]
   ;; Response should be an array of maps like this. FIXME: type string
   ;; ist not suitable for age ...
-  (let [resp (for [k (keys tags)]
-               {:type "string" :text k})]
-    (dbg resp)))
+  (dbg
+   (for [k (keys tags)]
+     {:type "string" :text k})))
 
-;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
+;; Requests for /tag-values  happen e.g.  when clicking on  the RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
-;; dropdown. Example request body: {:key "city"}.
+;; dropdown. Example request body:  {:key "city"}.  Response should be
+;; an array of maps.
 (defn tag-values [q]
-  (let [k (:key q)
-        ;; Response should be an array of maps:
-        resp (for [v (get tags k)]
-               {:text v})]
-    (dbg resp)))
+  (let [k (:key q)]
+    (dbg
+     (for [v (get tags k)]
+       {:text v}))))
 
 (defn not-implemented [request]
   {:status 404
