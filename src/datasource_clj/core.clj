@@ -8,7 +8,7 @@
             [clojure.pprint :refer [pprint]]
             [clojure.instant :as inst]
             [compojure.core :as cc]
-            [compojure.route :as cr]
+            ;; [compojure.route :as cr]
             ;; [ring.util.response :refer [response]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
@@ -28,7 +28,7 @@
    (fn [x] (rand-int 100))})
 
 ;;
-;; First /search request appears to  be {:target ""} whenn looking vor
+;; First /search request  appears to be {:target ""}  when looking vor
 ;; the possible time series names (targets). Then, as you start typing
 ;; e.g. "cosine" letter for letter, more specific search requests such
 ;; as {:target "c"}, {:target "co"}, {:target "cos"}, etc are coming.
@@ -159,7 +159,8 @@
 
 (defn not-implemented [request]
   (pprint request)
-  nil)
+  {:status 404
+   :body "Not implemented!"})
 
 (cc/defroutes routes
   ;; / should return 200 ok. Used for "Test connection" on the
@@ -176,7 +177,8 @@
   (cc/ANY "/tag-keys" request (tag-keys request))
   ;; /tag-values should return tag values for ad hoc filters.
   (cc/ANY "/tag-values" request (tag-values request))
-  (cr/not-found "Page not found"))
+  ;; To get a chance to expose requests to new endpoints:
+  (cc/ANY "/*" request (not-implemented request)))
 
 (def app
   (-> routes
