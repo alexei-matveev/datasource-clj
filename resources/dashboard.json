@@ -7,8 +7,22 @@
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
+        "limit": 100,
         "name": "Annotations & Alerts",
+        "showIn": 0,
         "type": "dashboard"
+      },
+      {
+        "datasource": "datasource-clj",
+        "enable": false,
+        "hide": false,
+        "iconColor": "rgba(255, 96, 96, 1)",
+        "limit": 100,
+        "name": "major incidents",
+        "query": "major incidents query",
+        "showIn": 0,
+        "tags": [],
+        "type": "tags"
       }
     ]
   },
@@ -16,7 +30,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1569675793025,
+  "iteration": 1569699890180,
   "links": [],
   "panels": [
     {
@@ -174,14 +188,14 @@
         "filters": [
           {
             "condition": "AND",
+            "key": "country",
+            "operator": "=",
+            "value": "New Zealand"
+          },
+          {
             "key": "city",
             "operator": "=",
             "value": "Berlin"
-          },
-          {
-            "key": "country",
-            "operator": "=",
-            "value": "Germany"
           }
         ],
         "hide": 0,
@@ -289,7 +303,6 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "sine",
           "value": "sine"
         },
@@ -315,7 +328,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {
@@ -333,7 +346,7 @@
     ]
   },
   "timezone": "",
-  "title": "simple dash",
+  "title": "simple dashboard",
   "uid": "HfOa4CpZz",
-  "version": 14
+  "version": 19
 }
