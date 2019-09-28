@@ -108,14 +108,13 @@
 (defn query [q]
   (let [targets (:targets q)
         [start end] (time-range q)
-        step (:intervalMs q)
-        data (for [t targets]
-               (case (:type t)
-                 "timeserie"
-                 (fake-timeserie (:target t) start end step)
-                 "table"
-                 (fake-table)))]
-    data))
+        step (:intervalMs q)]
+    (for [t targets]
+      (case (:type t)
+        "timeserie"
+        (fake-timeserie (:target t) start end step)
+        "table"
+        (fake-table)))))
 
 (comment
   (query example-query)
