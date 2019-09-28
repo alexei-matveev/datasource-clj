@@ -1,7 +1,9 @@
 ;;
-;; A backend for SimpleJson Plugin needs to implement 4 urls [1]:
+;; A backend for SimpleJson Plugin needs to implement just a fewe urls
+;; [1]. The minimum is likely a / and /query.
 ;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
+;; [2] https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md
 ;;
 (ns datasource-clj.core
   (:require [ring.adapter.jetty :as jetty]
@@ -156,6 +158,17 @@
      (for [v (get tags k)]
        {:text v}))))
 
+(defn annotations [q]
+  ;; Needs to be passed back:
+  (let [annotation (:annotation q)]
+    (dbg
+     (for [t [1569614412345 (+ 600000 1569614412345) ]]
+       {:title "Cluster outage. Annotation title"
+        :text "Joe cases brain split. Annotation text"
+        :tags ["joe", "cluster", "failure"]
+        :time t
+        :annotation annotation}))))
+
 (defn not-implemented [request]
   {:status 404
    :body "Not implemented!"})
@@ -170,7 +183,7 @@
   ;; /query should return metrics based on input.
   (cc/ANY "/query" request (query (:body (dbg request))))
   ;; /annotations should return annotations.
-  (cc/ANY "/annotations" request (not-implemented (dbg request)))
+  (cc/ANY "/annotations" request (annotations (:body (dbg request))))
   ;; /tag-keys should return tag keys for ad hoc filters.
   (cc/ANY "/tag-keys" request (tag-keys (:body (dbg request))))
   ;; /tag-values should return tag values for ad hoc filters.
@@ -181,7 +194,7 @@
 (def app
   (-> routes
       (wrap-json-body {:keywords? true :bigdecimals? true})
-      wrap-json-response))
+      (wrap-json-response)))
 
 (defn -main [& args]
   (jetty/run-jetty app {:port 8080}))
