@@ -27,10 +27,18 @@
    "noise"
    (fn [x] (rand-int 100))})
 
-;; First  /search request  appears to  be {:target  ""}. Then,  as you
-;; start typing e.g. "cosine" letter  for letter, more specific search
-;; requests such  as {:target  "c"}, {:target "co"},  {:target "cos"},
-;; etc are coming ...
+;;
+;; First /search request appears to  be {:target ""} whenn looking vor
+;; the possible time series names (targets). Then, as you start typing
+;; e.g. "cosine" letter for letter, more specific search requests such
+;; as {:target "c"}, {:target "co"}, {:target "cos"}, etc are coming.
+;;
+;; Another  use of  the /search  Endpoint is  to ask  vor the  possble
+;; values of the variable of type "Query".  The "Query" field from the
+;; variable  config page  gets  passed as  the  usual {:target  "..."}
+;; here.  The returned "metrics" are  then the possible values for the
+;; var.
+;;
 (defn search [request]
   (pprint request)
   (let [metrics (keys database)    ; ["sine" "cosine" ...]
@@ -119,6 +127,11 @@
    "street" []
    "age" [10 20 30]})
 
+;;
+;; Values  of  the  custom  Dashboard variables  of  type  "Interval",
+;; "Query",   etc.   do   not   get  passed   down   to  the   backend
+;; automatically. Ad hoc filters, like "city = Berlin", do.
+;;
 ;; Requests for /tag-keys happen e.g.  when clicking on the LHS of the
 ;; ad hoc filter to get the list of keywords for the dropdown. FIXME:
 ;; waht is the body when content-type = nil.
