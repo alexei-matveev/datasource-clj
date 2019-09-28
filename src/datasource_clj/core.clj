@@ -44,9 +44,8 @@
 ;; here.  The returned "metrics" are  then the possible values for the
 ;; var.
 ;;
-(defn search [request]
+(defn search [q]
   (let [metrics (keys database)    ; ["sine" "cosine" ...]
-        q (:body request)
         ;; FIXME: schuld the search be rather cases insensitive?
         regex (re-pattern (:target q))
         matches (filter (fn [s] (re-find regex s)) metrics)
@@ -115,9 +114,8 @@
                     [0.8969061860681147 1569608412345]
                     [0.3543351256655463 1569614412345])}))
 
-(defn query [request]
-  (let [q (:body request)
-        data (make-query-response q)]
+(defn query [q]
+  (let [data (make-query-response q)]
     #_(pprint data)
     data))
 
@@ -137,7 +135,7 @@
 ;; Requests for /tag-keys happen e.g.  when clicking on the LHS of the
 ;; ad hoc filter to get the list of keywords for the dropdown. FIXME:
 ;; waht is the body when content-type = nil.
-(defn tag-keys [request]
+(defn tag-keys [q]
   ;; Response should be an array of maps like this. FIXME: type string
   ;; ist not suitable for age ...
   (let [resp (for [k (keys tags)]
@@ -147,9 +145,8 @@
 ;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
 ;; dropdown. Example request body: {:key "city"}.
-(defn tag-values [request]
-  (let [q (:body request)
-        k (:key q)
+(defn tag-values [q]
+  (let [k (:key q)
         ;; Response should be an array of maps:
         resp (for [v (get tags k)]
                {:text v})]
@@ -165,15 +162,15 @@
   (cc/ANY "/" [] "ok")                  ; could be any text ...
   ;; /search used by the find metric options on the query tab in
   ;; panels.
-  (cc/ANY "/search" request (search (dbg request)))
+  (cc/ANY "/search" request (search (:body (dbg request))))
   ;; /query should return metrics based on input.
-  (cc/ANY "/query" request (query (dbg request)))
+  (cc/ANY "/query" request (query (:body (dbg request))))
   ;; /annotations should return annotations.
   (cc/ANY "/annotations" request (not-implemented (dbg request)))
   ;; /tag-keys should return tag keys for ad hoc filters.
-  (cc/ANY "/tag-keys" request (tag-keys (dbg request)))
+  (cc/ANY "/tag-keys" request (tag-keys (:body (dbg request))))
   ;; /tag-values should return tag values for ad hoc filters.
-  (cc/ANY "/tag-values" request (tag-values (dbg request)))
+  (cc/ANY "/tag-values" request (tag-values (:body (dbg request))))
   ;; To get a chance to expose requests to new endpoints:
   (cc/ANY "/*" request (not-implemented (dbg request))))
 
