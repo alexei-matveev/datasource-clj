@@ -13,12 +13,17 @@
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
-;; First request appears to be {"target" ""} ...
+;; First request appears to be {:target ""}. Then es you start typing
+;; e.g. "cosine" letter for letter more detailed search request as
+;; {:target "c"}, {:target "co"}, {:target "cos"}, etc are coming ...
 (defn search [request]
   (pprint request)
-  (let [metrics ["aaa" "bbb" "ccc"]
-        metricX [{:text "upper_25", :value 1}
-                 {:text "upper_75", :value 2}]]
+  (let [metrics ["sine" "cosine" "surprise me" "Can it be arbitrary text?"]
+        ;; FIXME: this form I dont get yet:
+        metricX [{:text "sine", :value 1}
+                 {:text "cosine", :value 2}
+                 {:text "Can it be an arbitrary text?" :value 3}]]
+    (pprint metrics)
     (response metrics)))
 
 ;; Example Query:
