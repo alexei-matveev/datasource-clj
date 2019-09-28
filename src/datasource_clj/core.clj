@@ -34,30 +34,31 @@
 
 ;; Example Query:
 (comment
-  (let [q {:range {:from "2019-09-27T15:00:12.345Z",
-                   :to   "2019-09-27T21:00:12.345Z",
-                   :raw {:from "now-6h", :to "now"}},
-           :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
-           :intervalMs 60000,
-           :interval "1m",
-           :adhocFilters [{:key "age", :operator "<", :value "42", :condition "AND"}
-                          {:key "city", :operator "=", :value "Berlin"}],
-           :maxDataPoints 480,
-           :panelId 2,
-           :cacheTimeout nil,
-           :timezone "",
-           :startTime 1569620746383,
-           :rangeRaw {:from "now-6h", :to "now"},
-           :requestId "Q116",
-           :dashboardId nil,
-           :scopedVars {:__interval {:text "1m", :value "1m"},
-                        :__interval_ms {:text "60000", :value 60000}}}]
-    (time-range q)))
+  (def example-query
+    {:range {:from "2019-09-27T15:00:12.345Z",
+             :to   "2019-09-27T21:00:12.345Z",
+             :raw {:from "now-6h", :to "now"}},
+     :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
+     :intervalMs 6000000, ; intentionally increased x 100 for use in tests
+     :interval "1m",      ; originally 1m = 60000 ms
+     :adhocFilters [{:key "age", :operator "<", :value "42", :condition "AND"}
+                    {:key "city", :operator "=", :value "Berlin"}],
+     :maxDataPoints 480,
+     :panelId 2,
+     :cacheTimeout nil,
+     :timezone "",
+     :startTime 1569620746383,
+     :rangeRaw {:from "now-6h", :to "now"},
+     :requestId "Q116",
+     :dashboardId nil,
+     :scopedVars {:__interval {:text "1m", :value "1m"},
+                  :__interval_ms {:text "60000", :value 60000}}})
+  (time-range example-query)
+  => (1569596412345 1569618012345))
 
-(defn query [request]
-  (pprint request)
-  (let [q (:body request)
-        targets (:targets q)
+;; q = Body of the /query:
+(defn make-query-response [q]
+  (let [targets (:targets q)
         [from to] (time-range q)
         interval (:intervalMs q)
         ;; FIXME: queries for tabular data?
@@ -65,6 +66,21 @@
                    :when (= "timeserie" (:type t))]
                {:target (:target t)
                 :datapoints (fake-data-poins from to interval)})]
+    #_(pprint data)
+    data))
+
+(comment
+  (make-query-response example-query)
+  => ({:target "xyz",
+       :datapoints ([-0.7961963581657523 1569596412345]
+                    [-0.5260452104331543 1569602412345]
+                    [0.8969061860681147 1569608412345]
+                    [0.3543351256655463 1569614412345])}))
+
+(defn query [request]
+  (pprint request)
+  (let [q (:body request)
+        data (make-query-response q)]
     #_(pprint data)
     (response data)))
 
