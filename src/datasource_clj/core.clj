@@ -111,15 +111,22 @@
     #_(pprint data)
     (response data)))
 
+;; Tag database for ad hoc filters:
+(def tags
+  {"country" ["Germany" "New Zealand"]
+   "city"  ["Berlin" "Paris" "London" "New York"]
+   "district" []
+   "street" []
+   "age" [10 20 30]})
+
 ;; Requests for /tag-keys happen e.g.  when clicking on the LHS of the
 ;; ad hoc filter to get the list of keywords for the dropdown. FIXME:
 ;; waht is the body when content-type = nil.
 (defn tag-keys [request]
   (pprint request)
-  (let [kws ["country" "city" "district" "street" "age"]]
-    ;; Response should be an array of maps:
-    (for [k kws]
-      {:type "string" :text k})))
+  ;; Response should be an array of maps like this:
+  (for [k (keys tags)]
+    {:type "string" :text k}))
 
 ;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
@@ -127,10 +134,9 @@
 (defn tag-values [request]
   (pprint request)
   (let [q (:body request)
-        k (:key q)                      ; unused
-        values ["Berlin" "Paris" "London" "New York"]]
+        k (:key q)]
     ;; Response should be an array of maps:
-    (for [v values]
+    (for [v (get tags k)]
       {:text v})))
 
 (defn not-implemented [request]
