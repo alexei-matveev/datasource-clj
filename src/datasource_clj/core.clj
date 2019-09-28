@@ -13,11 +13,13 @@
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
-;; First request appears to be {:target ""}. Then, as you start typing
-;; e.g. "cosine"  letter for letter,  more detailed search  request as
-;; {:target "c"}, {:target "co"}, {:target "cos"}, etc are coming ...
+;; First  /search request  appears to  be {:target  ""}. Then,  as you
+;; start typing e.g. "cosine" letter  for letter, more specific search
+;; requests such  as {:target  "c"}, {:target "co"},  {:target "cos"},
+;; etc are coming ...
 (defn search [request]
   (pprint request)
+  ;; FIXME: actually search?
   (let [metrics ["sine" "cosine" "surprise me" "Can it be arbitrary text?"]
         ;; FIXME: this form I dont get yet:
         metricX [{:text "sine", :value 1}
