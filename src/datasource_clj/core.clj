@@ -9,7 +9,7 @@
             [clojure.instant :as inst]
             [compojure.core :as cc]
             [compojure.route :as cr]
-            [ring.util.response :refer [response]]
+            ;; [ring.util.response :refer [response]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
@@ -43,7 +43,7 @@
                  {:text "cosine", :value 2}
                  {:text "Can it be an arbitrary text?" :value 3}]]
     (pprint matches)
-    (response matches)))
+    matches))
 
 ;; Example Query:
 (comment
@@ -109,7 +109,7 @@
   (let [q (:body request)
         data (make-query-response q)]
     #_(pprint data)
-    (response data)))
+    data))
 
 ;; Tag database for ad hoc filters:
 (def tags
@@ -124,9 +124,12 @@
 ;; waht is the body when content-type = nil.
 (defn tag-keys [request]
   (pprint request)
-  ;; Response should be an array of maps like this:
-  (for [k (keys tags)]
-    {:type "string" :text k}))
+  ;; Response should be an array of maps like this. FIXME: type string
+  ;; ist not suitable for age ...
+  (let [resp (for [k (keys tags)]
+               {:type "string" :text k})]
+    (pprint resp)
+    resp))
 
 ;; Requests for  /tag-values happen e.g.  when clicking on the  RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
@@ -134,14 +137,16 @@
 (defn tag-values [request]
   (pprint request)
   (let [q (:body request)
-        k (:key q)]
-    ;; Response should be an array of maps:
-    (for [v (get tags k)]
-      {:text v})))
+        k (:key q)
+        ;; Response should be an array of maps:
+        resp (for [v (get tags k)]
+               {:text v})]
+    (pprint resp)
+    resp))
 
 (defn not-implemented [request]
   (pprint request)
-  (response nil))
+  nil)
 
 (cc/defroutes routes
   ;; / should return 200 ok. Used for "Test connection" on the
