@@ -13,8 +13,8 @@
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
-;; First request appears to be {:target ""}. Then es you start typing
-;; e.g. "cosine" letter for letter more detailed search request as
+;; First request appears to be {:target ""}. Then, as you start typing
+;; e.g. "cosine"  letter for letter,  more detailed search  request as
 ;; {:target "c"}, {:target "co"}, {:target "cos"}, etc are coming ...
 (defn search [request]
   (pprint request)
