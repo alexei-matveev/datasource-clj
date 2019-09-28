@@ -32,7 +32,7 @@
     {:range {:from "2019-09-27T15:00:12.345Z",
              :to   "2019-09-27T21:00:12.345Z",
              :raw {:from "now-6h", :to "now"}},
-     :targets [{:target "xyz", :refId "A", :hide false, :type "timeserie"}],
+     :targets [{:target "cosine", :refId "A", :hide false, :type "timeserie"}],
      :intervalMs 6000000, ; intentionally increased x 100 for use in tests
      :interval "1m",      ; originally 1m = 60000 ms
      :adhocFilters [{:key "age", :operator "<", :value "42", :condition "AND"}
@@ -78,7 +78,7 @@
 
 (comment
   (make-query-response example-query)
-  => ({:target "xyz",
+  => ({:target "cosine",
        :datapoints ([-0.7961963581657523 1569596412345]
                     [-0.5260452104331543 1569602412345]
                     [0.8969061860681147 1569608412345]
