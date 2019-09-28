@@ -8,7 +8,7 @@
             [clojure.pprint :refer [pprint]]
             [clojure.instant :as inst]
             [compojure.core :as cc]
-            [compojure.route :as route]
+            [compojure.route :as cr]
             [ring.util.response :refer [response]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
@@ -87,7 +87,7 @@
   (cc/ANY "/tag-keys" request (not-implemented request))
   ;; /tag-values should return tag values for ad hoc filters.
   (cc/ANY "/tag-values" request (not-implemented request))
-  (route/not-found "Page not found"))
+  (cr/not-found "Page not found"))
 
 (def app
   (-> routes
