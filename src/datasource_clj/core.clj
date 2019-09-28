@@ -174,13 +174,10 @@
       (wrap-json-body {:keywords? true :bigdecimals? true})
       wrap-json-response))
 
-(defn go []
+(defn -main [& args]
   (jetty/run-jetty app {:port 8080}))
 
 ;; For your C-c C-e pleasure:
 (comment
-  (def server (go))
+  (def server (-main))
   (.stop server))
-
-(defn -main [& args]
-  (go))
