@@ -1,7 +1,8 @@
 ;;
-;; A backend for SimpleJson Plugin needs  to implement just a few urls
-;; [1]. The minimum is likely a /  and /query. A few more eyamples see
-;; Ref. [2].
+;; A backend for SimpleJson Plugin needs to implement just a few urls
+;; [1]. The minimum is likely a / and a /query Endpoints. A few more
+;; eyamples see Ref. [2]. For anything but / Grafana seems to use HTTP
+;; POST, but docs appear to allow both.
 ;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
 ;; [2] https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md
@@ -11,8 +12,6 @@
             [clojure.pprint :refer [pprint]]
             [clojure.instant :as inst]
             [compojure.core :as cc]
-            ;; [compojure.route :as cr]
-            ;; [ring.util.response :refer [response]]
             [ring.middleware.json :refer [wrap-json-body
                                           wrap-json-response]]))
 
