@@ -72,7 +72,7 @@
         matcheX [{:text "sine", :value 1}
                  {:text "cosine", :value 2}
                  {:text "Can it be an arbitrary text?" :value 3}]]
-    (dbg matches)))
+    matches))
 
 ;; Example Query:
 (comment
@@ -161,9 +161,8 @@
 (defn tag-keys [q]
   ;; Response should be an array of maps like this. FIXME: type string
   ;; ist not suitable for age ...
-  (dbg
-   (for [k (keys tags)]
-     {:type "string" :text k})))
+  (for [k (keys tags)]
+    {:type "string" :text k}))
 
 ;; Requests for /tag-values  happen e.g.  when clicking on  the RHS of
 ;; the  ad   hoc  filter   to  get   the  list   of  values   for  the
@@ -171,28 +170,26 @@
 ;; an array of maps.
 (defn tag-values [q]
   (let [k (:key q)]
-    (dbg
-     (for [v (get tags k)]
-       {:text v}))))
+    (for [v (get tags k)]
+      {:text v})))
 
 (defn annotations [q]
   ;; Does  not need  to be  passed back,  contrary to  what some  docs
   ;; claim:
   (let [annotation (:annotation q)
         time 1569614412345]             ; random
-    (dbg
-     (for [t [time (+ time (* 60 60 1000)) ]]
-       {:text "Joe cases brain split."  ; required
-        :time t                         ; required
-        ;; Some docs seem to claim it is required, no it is not:
-        ;; :annotation annotation
-        :title "Cluster outage."        ; optional
-        :tags ["joe", "cluster", "failure"]
-        ;; Annotations for  regions seem to be  poorly documented, see
-        ;; example  [1].  Time  End   alone  does  not  suffice.
-        ;; [1] https://github.com/simPod/grafana-json-datasource
-        :isRegion true
-        :timeEnd (+ t (* 40 60 1000))}))))
+    (for [t [time (+ time (* 60 60 1000)) ]]
+      {:text "Joe cases brain split."  ; required
+       :time t                         ; required
+       ;; Some docs seem to claim it is required, no it is not:
+       ;; :annotation annotation
+       :title "Cluster outage."        ; optional
+       :tags ["joe", "cluster", "failure"]
+       ;; Annotations for  regions seem to be  poorly documented, see
+       ;; example  [1].  Time  End   alone  does  not  suffice.
+       ;; [1] https://github.com/simPod/grafana-json-datasource
+       :isRegion true
+       :timeEnd (+ t (* 40 60 1000))})))
 
 (defn not-implemented [request]
   {:status 404
@@ -214,9 +211,10 @@
       (vec (for [[endpoint handler] impl]
              [endpoint (fn [request]
                          (-> request
-                             dbg    ; <- debug prints
+                             ;; dbg  ; <- debug prints
                              :body
                              handler
+                             ;; dbg
                              rr/response))]))])))
 
 (def app
