@@ -1,7 +1,7 @@
 ;;
 ;; A backend for SimpleJson Plugin needs  to implement just a few urls
 ;; [1]. The minimum is  likely a / and a /query  Endpoints. A few more
-;; eyamples see Ref. [2]. For anything but / Grafana seems to use HTTP
+;; examples see Ref. [2]. For anything but / Grafana seems to use HTTP
 ;; POST, but  docs appear to  allow both.  There is als  an "enhanced"
 ;; version of Simple Json Plugin bei "simpod" [3].
 ;;
