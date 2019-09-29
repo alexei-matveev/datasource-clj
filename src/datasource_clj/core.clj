@@ -160,13 +160,18 @@
 
 (defn annotations [q]
   ;; Needs to be passed back:
-  (let [annotation (:annotation q)]
+  (let [annotation (:annotation q)
+        time 1569614412345]             ; random
     (dbg
-     (for [t [1569614412345 (+ 600000 1569614412345) ]]
-       {:title "Cluster outage. Annotation title"
-        :text "Joe cases brain split. Annotation text"
+     (for [t [time (+ time (* 60 60 1000)) ]]
+       {:title "Cluster outage."
+        :text "Joe cases brain split."
         :tags ["joe", "cluster", "failure"]
         :time t
+        ;; Annotations for regions seem to be poorly documented, see example [1].
+        ;; [1] https://github.com/simPod/grafana-json-datasource
+        :isRegion true
+        :timeEnd (+ t (* 10 60 1000))
         :annotation annotation}))))
 
 (defn not-implemented [request]
