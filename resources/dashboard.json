@@ -14,7 +14,7 @@
       },
       {
         "datasource": "datasource-clj",
-        "enable": false,
+        "enable": true,
         "hide": false,
         "iconColor": "rgba(255, 96, 96, 1)",
         "limit": 100,
@@ -30,7 +30,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1569699890180,
+  "iteration": 1569761989650,
   "links": [],
   "panels": [
     {
@@ -38,6 +38,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "datasource-clj",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -72,8 +73,14 @@
       "steppedLine": false,
       "targets": [
         {
+          "rawQuery": false,
           "refId": "A",
           "target": "Can it be arbitrary text? Surprise me!",
+          "type": "timeserie"
+        },
+        {
+          "refId": "B",
+          "target": "cosine",
           "type": "timeserie"
         }
       ],
@@ -190,12 +197,12 @@
             "condition": "AND",
             "key": "country",
             "operator": "=",
-            "value": "New Zealand"
+            "value": "Germany"
           },
           {
             "key": "city",
             "operator": "=",
-            "value": "Berlin"
+            "value": "London"
           }
         ],
         "hide": 0,
@@ -328,8 +335,8 @@
     ]
   },
   "time": {
-    "from": "now-7d",
-    "to": "now"
+    "from": "2019-09-27T14:09:03.314Z",
+    "to": "2019-09-28T01:34:58.343Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -348,5 +355,5 @@
   "timezone": "",
   "title": "simple dashboard",
   "uid": "HfOa4CpZz",
-  "version": 19
+  "version": 20
 }
