@@ -1,11 +1,13 @@
 ;;
-;; A backend for SimpleJson Plugin needs to implement just a few urls
-;; [1]. The minimum is likely a / and a /query Endpoints. A few more
+;; A backend for SimpleJson Plugin needs  to implement just a few urls
+;; [1]. The minimum is  likely a / and a /query  Endpoints. A few more
 ;; eyamples see Ref. [2]. For anything but / Grafana seems to use HTTP
-;; POST, but docs appear to allow both.
+;; POST, but  docs appear to  allow both.  There is als  an "enhanced"
+;; version of Simple Json Plugin bei "simpod" [3].
 ;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
 ;; [2] https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md
+;; [3] https://grafana.com/grafana/plugins/simpod-json-datasource
 ;;
 (ns datasource-clj.core
   (:require [ring.adapter.jetty :as jetty]
@@ -159,20 +161,23 @@
        {:text v}))))
 
 (defn annotations [q]
-  ;; Needs to be passed back:
+  ;; Does  not need  to be  passed back,  contrary to  what some  docs
+  ;; claim:
   (let [annotation (:annotation q)
         time 1569614412345]             ; random
     (dbg
      (for [t [time (+ time (* 60 60 1000)) ]]
-       {:title "Cluster outage."
-        :text "Joe cases brain split."
+       {:text "Joe cases brain split."  ; required
+        :time t                         ; required
+        ;; Some docs seem to claim it is required, no it is not:
+        ;; :annotation annotation
+        :title "Cluster outage."        ; optional
         :tags ["joe", "cluster", "failure"]
-        :time t
-        ;; Annotations for regions seem to be poorly documented, see example [1].
+        ;; Annotations for  regions seem to be  poorly documented, see
+        ;; example  [1].  Time  End   alone  does  not  suffice.
         ;; [1] https://github.com/simPod/grafana-json-datasource
         :isRegion true
-        :timeEnd (+ t (* 10 60 1000))
-        :annotation annotation}))))
+        :timeEnd (+ t (* 40 60 1000))}))))
 
 (defn not-implemented [request]
   {:status 404
