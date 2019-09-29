@@ -5,6 +5,20 @@
 ;; POST, but  docs appear to  allow both.  There is als  an "enhanced"
 ;; version of Simple Json Plugin bei "simpod" [3].
 ;;
+;; * "/" should return 200 ok. Used for "Test connection" on the
+;;   datasource config page.
+;;
+;; * "/search" used by the find metric options on the query tab in
+;;   panels.
+;;
+;; * "/query" should return metrics based on input.
+;;
+;; * "/annotations" should return annotations.
+;;
+;; * "/tag-keys" should return tag keys for ad hoc filters.
+;;
+;; * "/tag-values" should return tag values for ad hoc filters.
+;;
 ;; [1] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
 ;; [2] https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md
 ;; [3] https://grafana.com/grafana/plugins/simpod-json-datasource
@@ -184,27 +198,26 @@
   {:status 404
    :body "Not implemented!"})
 
-;; With Bidi you need to use rr/response to get a proper HTTP
-;; response:
 (def routes
-  (br/make-handler
-   ;; / should return 200 ok. Used for "Test connection" on the
-   ;; datasource config page.
-   ["/"
-    [["" (fn [_] (rr/response "ok"))],
-     ;; /search used by the find metric options on the query tab in
-     ;; panels.
-     ["search" #(-> % dbg :body search rr/response)],
-     ;; /query should return metrics based on input.
-     ["query" #(-> % dbg :body query rr/response)],
-     ;; /annotations should return annotations.
-     ["annotations" #(-> % dbg :body annotations rr/response)],
-     ;; /tag-keys should return tag keys for ad hoc filters.
-     ["tag-keys" #(-> % dbg :body tag-keys rr/response)],
-     ;; /tag-values should return tag values for ad hoc filters.
-     ["tag-values" #(-> % dbg :body tag-values rr/response)],
-     ;; To get a chance to expose requests to new endpoints:
-     [true #(not-implemented (dbg %))]]]))
+  (let [impl [["" (fn [_] "ok")]
+              ["search" search]
+              ["query" query]
+              ["annotations" annotations]
+              ["tag-keys" tag-keys]
+              ["tag-values" tag-values]
+              [true not-implemented]]]
+    ;; With Bidi  you need  to use  rr/response to  get a  proper HTTP
+    ;; response. Decorate endpoint  handlers with to keep  most of the
+    ;; HTTP boilerplate off the impl handlers:
+    (br/make-handler
+     ["/"
+      (vec (for [[endpoint handler] impl]
+             [endpoint (fn [request]
+                         (-> request
+                             dbg    ; <- debug prints
+                             :body
+                             handler
+                             rr/response))]))])))
 
 (def app
   (-> routes
