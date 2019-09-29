@@ -208,14 +208,16 @@
     ;; HTTP boilerplate off the impl handlers:
     (br/make-handler
      ["/"
-      (vec (for [[endpoint handler] impl]
-             [endpoint (fn [request]
-                         (-> request
-                             ;; dbg  ; <- debug prints
-                             :body
-                             handler
-                             ;; dbg
-                             rr/response))]))])))
+      (vec
+       (for [[endpoint handler] impl]
+         [endpoint
+          (fn [request]
+            (-> request
+                ;; dbg  ; <- debug prints
+                :body
+                handler
+                ;; dbg
+                rr/response))]))])))
 
 (def app
   (-> routes
