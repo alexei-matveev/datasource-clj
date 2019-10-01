@@ -30,7 +30,8 @@
             [ring.util.response :as rr]
             [bidi.ring :as br]
             [ring.middleware.json :refer [wrap-json-body
-                                          wrap-json-response]]))
+                                          wrap-json-response]])
+  (:gen-class))
 
 ;; Time series DB.  Here a map from target names  to example functions
 ;; of time:

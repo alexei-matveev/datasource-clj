@@ -12,14 +12,14 @@
 #
 # To run a container issue
 #
-#     docker run --rm -itd -p 3081:8080 f0bec0d/datasource-clj
+#     docker run --rm -itd -p 8080:8080 f0bec0d/datasource-clj
 #
 FROM clojure:lein AS builder
 WORKDIR /work
 ADD project.clj .
 RUN lein deps
-ADD src .
-RUN lein uberjar
+ADD src src
+RUN find . && lein uberjar
 
 FROM openjdk:8-jre-alpine
 MAINTAINER alexei.matveev@gmail.com
