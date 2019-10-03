@@ -27,3 +27,36 @@ spec:
 #       volumeMounts:
 #       - mountPath: /var/lib/grafana
 #         name: grafana-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+# namespace: datasource-clj
+spec:
+  type: ClusterIP 
+  selector:
+    component: grafana
+  ports:
+  - port: 3000
+    targetPort: 3000
+---
+#
+# We assume here that *.localhost resolves to the local machine.  Following
+# URLs should be directed to Grafana.
+#
+#     http://grafana.localhost
+#     https://grafana.localhost
+#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: grafana
+spec:
+  rules:
+  - host: grafana.localhost
+    http:
+      paths: 
+      - backend: 
+          serviceName: grafana
+          servicePort: 3000
