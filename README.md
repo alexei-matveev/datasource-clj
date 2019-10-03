@@ -15,9 +15,18 @@ and configure a SimpleJson Datasource pointing to your host,
 e.g. http://192.168.0.1:8080. Beware that localhost inside a Docker
 container does not point to the Docker Host.
 
+## Kubernetes
+
+    cd ./k3s
+    kubectl create namespace datasource-clj
+    kubectl config set-context --current --namespace=datasource-clj
+    kubectl apply -f grafana.yaml
+    kubectl apply -f service.yaml
+    kubectl apply -f ingress.yaml
+
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Alexei Matveev <alexei.matveev@gmail.com>
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
