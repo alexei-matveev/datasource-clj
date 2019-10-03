@@ -14,19 +14,28 @@ spec:
       labels:
         component: grafana
     spec:
-#     volumes:
-#     - name: grafana-claim
-#       persistentVolumeClaim:
-#         claimName: grafana-claim
       containers:
       - name: grafana
         image: grafana/grafana:6.4.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
-#       volumeMounts:
-#       - mountPath: /var/lib/grafana
-#         name: grafana-claim
+        volumeMounts:
+        - mountPath: "/var/lib/grafana"
+          name: "var-lib-grafana"
+      #
+      # The Volume  must be writable  by Grafana user. FIXME:  what if
+      # the UID changes?
+      #
+      #   mkdir -p /var/lib/k3s-volumes/var-lib-grafana/
+      #   chown 472:472 /var/lib/k3s-volumes/var-lib-grafana/
+      #   chmod 700 /var/lib/k3s-volumes/var-lib-grafana/
+      #
+      volumes:
+      - name: "var-lib-grafana"
+        hostPath:
+          path: "/var/lib/k3s-volumes/var-lib-grafana"
+          type: "Directory"
 ---
 apiVersion: v1
 kind: Service
