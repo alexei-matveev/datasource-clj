@@ -34,7 +34,7 @@ metadata:
   name: grafana
 # namespace: datasource-clj
 spec:
-  type: ClusterIP 
+  type: ClusterIP
   selector:
     component: grafana
   ports:
@@ -50,13 +50,13 @@ spec:
 #
 apiVersion: extensions/v1beta1
 kind: Ingress
-metadata: 
+metadata:
   name: grafana
 spec:
   rules:
   - host: grafana.localhost
     http:
-      paths: 
-      - backend: 
+      paths:
+      - backend:
           serviceName: grafana
           servicePort: 3000
