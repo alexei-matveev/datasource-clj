@@ -23,21 +23,22 @@ spec:
         volumeMounts:
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
-      initContainers:
-      - name: "chown-volume"
-        image: "busybox:1.31"
-        command: ["chown", "472:472", "/var/lib/grafana"]
-        volumeMounts:
-        - mountPath: "/var/lib/grafana"
-          name: "var-lib-grafana"
-      #
-      # The Volume  must be writable  by Grafana user. FIXME:  what if
-      # the UID changes?
+
+      # The Volume must be writable by Grafana user. Without this init
+      # container you would have to manually do this:
       #
       #   mkdir -p /var/lib/k3s-volumes/var-lib-grafana/
       #   chown 472:472 /var/lib/k3s-volumes/var-lib-grafana/
       #   chmod 700 /var/lib/k3s-volumes/var-lib-grafana/
       #
+      # FIXME: what if the UID or GID change?
+      initContainers:
+      - name: "chown-n-chmod"
+        image: "busybox:1.31"
+        command: ["sh", "-c", "chown 472:472 /d && chmod 700 /d"]
+        volumeMounts:
+        - mountPath: "/d"
+          name: "var-lib-grafana"
       volumes:
       - name: "var-lib-grafana"
         hostPath:
