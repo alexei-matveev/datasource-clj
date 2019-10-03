@@ -23,6 +23,13 @@ spec:
         volumeMounts:
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
+      initContainers:
+      - name: "chown-volume"
+        image: "busybox:1.31"
+        command: ["chown", "472:472", "/var/lib/grafana"]
+        volumeMounts:
+        - mountPath: "/var/lib/grafana"
+          name: "var-lib-grafana"
       #
       # The Volume  must be writable  by Grafana user. FIXME:  what if
       # the UID changes?
@@ -35,7 +42,7 @@ spec:
       - name: "var-lib-grafana"
         hostPath:
           path: "/var/lib/k3s-volumes/var-lib-grafana"
-          type: "Directory"
+          type: "DirectoryOrCreate"
 ---
 apiVersion: v1
 kind: Service
