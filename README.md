@@ -21,8 +21,6 @@ container does not point to the Docker Host.
     kubectl create namespace datasource-clj
     kubectl config set-context --current --namespace=datasource-clj
     kubectl apply -f grafana.yaml
-    kubectl apply -f service.yaml
-    kubectl apply -f ingress.yaml
 
 ## License
 
