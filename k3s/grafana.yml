@@ -32,7 +32,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grafana
-# namespace: datasource-clj
+  labels:
+    app: grafana
 spec:
   type: ClusterIP
   selector:
@@ -52,6 +53,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: grafana
+  labels:
+    app: grafana
 spec:
   rules:
   - host: grafana.localhost
