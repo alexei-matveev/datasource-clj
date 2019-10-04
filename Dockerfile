@@ -17,17 +17,18 @@
 FROM clojure:lein AS builder
 WORKDIR /work
 ADD project.clj .
-RUN lein deps
+RUN find . && lein deps
 ADD src src
+# FWIW, uberjars, created  with lein uberjar, or all of  them (?)  are
+# not "stable". Rebuild  with "lein uberjar" changes  the hash. Docker
+# Layer Caching does  not let it come that far,  unless the sources or
+# project file above change.
 RUN find . && lein uberjar
 
 FROM openjdk:8-jre-alpine
 MAINTAINER alexei.matveev@gmail.com
 WORKDIR /app
 
-# FWIW, uberjars, created  with lein uberjar, or all of  them (?)  are
-# not "stable". Rebuild  with "lein uberjar" changes the  hash. So the
-# image will always be rebuilt after a lein uberjar:
 COPY --from=builder /work/target/datasource-clj-0.1.0-SNAPSHOT-standalone.jar /app/app.jar
 
 EXPOSE 8080/tcp
