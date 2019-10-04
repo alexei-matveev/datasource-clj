@@ -22,7 +22,7 @@ spec:
         ports:
         - containerPort: 8080
 
-      # Grafana backend:
+      # Grafana frontend for demo & devel:
       - name: grafana
         image: grafana/grafana:6.4.1
         imagePullPolicy: IfNotPresent
@@ -31,6 +31,12 @@ spec:
         volumeMounts:
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
+        # SimpleJson  Plugin  ist  not  installed  by  default.   This
+        # environment setting  will trigger a download  from Internets
+        # on container start. What about corporate proxies?
+        env:
+        - name: "GF_INSTALL_PLUGINS"
+          value: "grafana-simple-json-datasource"
 
       # The Volume must be writable by Grafana user. Without this init
       # container you would have to manually do this:
