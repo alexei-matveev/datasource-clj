@@ -30,6 +30,5 @@ WORKDIR /app
 # image will always be rebuilt after a lein uberjar:
 COPY --from=builder /work/target/datasource-clj-0.1.0-SNAPSHOT-standalone.jar /app/app.jar
 
-# This is the reverse of the Zabbix server port 10051:
 EXPOSE 8080/tcp
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
