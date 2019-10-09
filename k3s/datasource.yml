@@ -33,7 +33,8 @@ spec:
           name: "var-lib-grafana"
         # SimpleJson  Plugin  ist  not  installed  by  default.   This
         # environment setting  will trigger a download  from Internets
-        # on container start. What about corporate proxies?
+        # on container  start. Consider setting https_proxy  if plugin
+        # fails to download:
         env:
         - name: "GF_INSTALL_PLUGINS"
           value: "grafana-simple-json-datasource"
