@@ -1,0 +1,7 @@
+# Ignore everything
+**
+# Allow:
+!target/datasource-clj-0.1.0-SNAPSHOT-standalone.jar
+!src
+!resources
+!project.clj

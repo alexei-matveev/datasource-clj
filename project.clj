@@ -9,4 +9,5 @@
                  [ring/ring-json "0.5.0"]
                  [ring/ring-jetty-adapter "1.7.1"]]
   :repl-options {:init-ns datasource-clj.core}
-  :main datasource-clj.core)
+  :main datasource-clj.core
+  :aot [datasource-clj.core])

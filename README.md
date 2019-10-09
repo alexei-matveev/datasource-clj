@@ -1,7 +1,7 @@
-# datasource-clj
+# Grafana SimpleJson Datasource Backend in Clojure
 
 A Clojure Implementation of the Data Source Backend for
-[SimpleJason](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)
+[SimpleJson](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)
 Grafana Plugin.
 
 ## Usage
@@ -19,9 +19,15 @@ Firewall, e.g.:
 
     docker run ... -e "https_proxy=..." ...
 
+## Kubernetes
+
+    kubectl create namespace datasource-clj
+    kubectl config set-context --current --namespace=datasource-clj
+    kubectl apply -f ./k3s
+
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Alexei Matveev <alexei.matveev@gmail.com>
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
