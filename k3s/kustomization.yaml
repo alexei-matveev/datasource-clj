@@ -7,4 +7,4 @@ commonLabels:
 commonAnnotations:
   change-this-to-reapply: "1"
 resources:
-  - datasource.yml
+  - datasource.yaml
