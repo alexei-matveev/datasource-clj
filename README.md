@@ -23,7 +23,7 @@ Firewall, e.g.:
 
     kubectl create namespace datasource-clj
     kubectl config set-context --current --namespace=datasource-clj
-    kubectl apply -f ./k3s
+    kubectl apply -k ./k3s
 
 ## License
 
