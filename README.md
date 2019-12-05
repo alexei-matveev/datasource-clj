@@ -7,6 +7,9 @@ Grafana Plugin.  See also generic infos for
 
 ## Start Datasource & Grafana with Kubernetes
 
+Use e.g. [k3s](https://github.com/rancher/k3s) as no bullsh*t
+Kubernetes.
+
     kubectl create namespace datasource-clj
     kubectl config set-context --current --namespace=datasource-clj
     kubectl apply -k ./k3s
