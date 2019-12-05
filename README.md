@@ -5,9 +5,15 @@ A Clojure Implementation of the Data Source Backend for
 Grafana Plugin.  See also generic infos for
 [plugins](https://grafana.com/docs/grafana/latest/plugins/developing/datasources/).
 
-## Usage
+## Start Datasource & Grafana with Kubernetes
 
-Start Grafana
+    kubectl create namespace datasource-clj
+    kubectl config set-context --current --namespace=datasource-clj
+    kubectl apply -k ./k3s
+
+Then point your browser to [URL](http://grafana.localhost).
+
+## Start Grafana with Docker
 
     docker run -d -p 3000:3000 --name=grafana \
         -e "GF_INSTALL_PLUGINS=grafana-simple-json-datasource" grafana/grafana
@@ -19,12 +25,6 @@ Proxy  in the  Container environment  if  you are  behind a  corporate
 Firewall, e.g.:
 
     docker run ... -e "https_proxy=..." ...
-
-## Kubernetes
-
-    kubectl create namespace datasource-clj
-    kubectl config set-context --current --namespace=datasource-clj
-    kubectl apply -k ./k3s
 
 ## License
 
