@@ -11,7 +11,11 @@ Grafana Plugin.  See also generic infos for
     kubectl config set-context --current --namespace=datasource-clj
     kubectl apply -k ./k3s
 
-Then point your browser to [URL](http://grafana.localhost).
+Then  point your  browser to  [URL](http://grafana.localhost).  FIXME:
+provision     the     Dashbaord     from     &     Datasource     from
+[resources](./resources)?  This  Grafana instance may make  use of the
+datasource  running  in  the  same pod  at  http://localhost:8080  ---
+localhost from the inside of container, not your laptop hosting k3s.
 
 ## Start Grafana with Docker
 
@@ -25,6 +29,15 @@ Proxy  in the  Container environment  if  you are  behind a  corporate
 Firewall, e.g.:
 
     docker run ... -e "https_proxy=..." ...
+
+## Export Datasources from Grafana
+
+Grafana does not seem to offer a way to export Datasources, use this
+[workaround](https://rmoff.net/2017/08/08/simple-export/import-of-data-sources-in-grafana/):
+
+    mkdir -p dir && curl -s "http://$ip:3000/api/datasources" -u admin:password | jq -c -M '.[]' | split -l 1 - dir/
+
+Here ths $ip could be the Pod IP.
 
 ## License
 
