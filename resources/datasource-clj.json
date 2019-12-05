@@ -1,1 +1,18 @@
-{"id":1,"orgId":1,"name":"datasource-clj","type":"grafana-simple-json-datasource","typeLogoUrl":"public/plugins/grafana-simple-json-datasource/img/simpleJson_logo.svg","access":"proxy","url":"http://localhost:8080","password":"","user":"","database":"","basicAuth":false,"isDefault":true,"jsonData":{"keepCookies":[]},"readOnly":false}
+{
+    "access": "proxy",
+    "basicAuth": false,
+    "database": "",
+    "id": 1,
+    "isDefault": true,
+    "jsonData": {
+        "keepCookies": []
+    },
+    "name": "datasource-clj",
+    "orgId": 1,
+    "password": "",
+    "readOnly": false,
+    "type": "grafana-simple-json-datasource",
+    "typeLogoUrl": "public/plugins/grafana-simple-json-datasource/img/simpleJson_logo.svg",
+    "url": "http://localhost:8080",
+    "user": ""
+}
