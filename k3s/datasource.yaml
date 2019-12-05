@@ -14,7 +14,10 @@ spec:
         component: datasource
     spec:
       containers:
-      # Data source backend serving metrics accessed by Grafana:
+      # Data source backend serving  metrics accessed by Grafana. This
+      # datasource      is      accessed     from      Grafana      at
+      # http://localhost:8080. When in  development will probably have
+      # to change that URL in Grafana UI ...
       - name: datasource
         image: f0bec0d/datasource-clj
         imagePullPolicy: IfNotPresent
