@@ -9,6 +9,6 @@ commonAnnotations:
 configMapGenerator:
   - name: "datasources"
     files:
-      - "datasource-clj.json"
+      - "datasources.yaml"
 resources:
   - datasource.yaml
