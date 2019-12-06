@@ -33,6 +33,8 @@ spec:
         volumeMounts:
         - mountPath: "/etc/grafana/provisioning/datasources/"
           name: "datasources"
+        - mountPath: "/etc/grafana/provisioning/dashboards/"
+          name: "dashboard-providers"
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
         # SimpleJson  Plugin  ist  not  installed  by  default.   This
@@ -64,6 +66,9 @@ spec:
       - name: "datasources"
         configMap:
           name: "datasources"
+      - name: "dashboard-providers"
+        configMap:
+          name: "dashboard-providers"
       - name: "var-lib-grafana"
         hostPath:
           path: "/var/lib/k3s-volumes/var-lib-grafana"
