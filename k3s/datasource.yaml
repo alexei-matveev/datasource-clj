@@ -31,6 +31,8 @@ spec:
         ports:
         - containerPort: 3000
         volumeMounts:
+        - mountPath: "/etc/grafana/provisioning/datasources/"
+          name: "datasources"
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
         # SimpleJson  Plugin  ist  not  installed  by  default.   This
@@ -56,7 +58,12 @@ spec:
         volumeMounts:
         - mountPath: "/d"
           name: "var-lib-grafana"
+
+      # Volumes used by some or all containers of the Pod:
       volumes:
+      - name: "datasources"
+        configMap:
+          name: "datasources"
       - name: "var-lib-grafana"
         hostPath:
           path: "/var/lib/k3s-volumes/var-lib-grafana"
