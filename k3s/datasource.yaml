@@ -35,6 +35,8 @@ spec:
           name: "datasources"
         - mountPath: "/etc/grafana/provisioning/dashboards/"
           name: "dashboard-providers"
+        - mountPath: "/dashboards/"
+          name: "dashboards"
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
         # SimpleJson  Plugin  ist  not  installed  by  default.   This
@@ -69,6 +71,9 @@ spec:
       - name: "dashboard-providers"
         configMap:
           name: "dashboard-providers"
+      - name: "dashboards"
+        configMap:
+          name: "dashboards"
       - name: "var-lib-grafana"
         hostPath:
           path: "/var/lib/k3s-volumes/var-lib-grafana"

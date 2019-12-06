@@ -13,5 +13,8 @@ configMapGenerator:
   - name: "dashboard-providers"
     files:
       - "dashboard-providers.yaml"
+  - name: "dashboards"
+    files:
+      - "simple-dashboard.json"
 resources:
   - datasource.yaml
