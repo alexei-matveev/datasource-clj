@@ -1,9 +1,9 @@
 # https://grafana.com/docs/grafana/latest/administration/provisioning/
 apiVersion: 1
 datasources:
-  - name: "datasource-xyz"
+  - name: "datasource-clj"
     type: "grafana-simple-json-datasource"
-    url: "http://localhost:8181"
+    url: "http://localhost:8080"
     access: "proxy"
     basicAuth: false
     database: ""
