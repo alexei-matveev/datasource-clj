@@ -17,4 +17,4 @@ configMapGenerator:
     files:
       - "simple-dashboard.json"
 resources:
-  - datasource.yaml
+  - deployment.yaml
