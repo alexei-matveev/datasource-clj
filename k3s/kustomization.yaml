@@ -7,4 +7,5 @@ commonLabels:
 commonAnnotations:
   change-this-to-reapply: "1"
 resources:
+  - configmap.yaml
   - datasource.yaml
