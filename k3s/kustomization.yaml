@@ -6,6 +6,9 @@ commonLabels:
   app: "datasource"
 commonAnnotations:
   change-this-to-reapply: "1"
+configMapGenerator:
+  - name: "datasources"
+    files:
+      - "datasource-clj.json"
 resources:
-  - configmap.yaml
   - datasource.yaml
