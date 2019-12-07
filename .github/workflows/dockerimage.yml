@@ -1,3 +1,5 @@
+# You cannot delete packages in  public repositories on GitHub!  Think
+# twice befor you push!
 name: Docker Image CI
 on: [push]
 jobs:
