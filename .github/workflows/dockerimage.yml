@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build and tag image
-      run: docker build -t "docker.pkg.github.com/$GITHUB_REPOSITORY/datasource-clj:latest"
+      run: docker build -t "docker.pkg.github.com/$GITHUB_REPOSITORY/datasource-clj:latest" .
     - name: Docker login
       run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
       env:
