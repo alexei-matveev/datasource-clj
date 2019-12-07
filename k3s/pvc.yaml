@@ -1,0 +1,12 @@
+# https://github.com/rancher/local-path-provisioner
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1Gi

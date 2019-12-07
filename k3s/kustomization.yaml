@@ -17,4 +17,5 @@ configMapGenerator:
     files:
       - "simple-dashboard.json"
 resources:
+  - pvc.yaml
   - deployment.yaml
