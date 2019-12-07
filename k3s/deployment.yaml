@@ -47,21 +47,25 @@ spec:
         - name: "GF_INSTALL_PLUGINS"
           value: "grafana-simple-json-datasource"
 
-      # The Volume must be writable by Grafana user. Without this init
-      # container you would have to manually do this:
+      #
+      # The Volume must be writable  by Grafana user.  With local path
+      # *provisioner*  from  Rancher  the  volumes  (directories)  are
+      # created with mode 0777 and root:root as owner. With local path
+      # volumes  one would  need  an init  container  or manually  set
+      # permissions like this:
       #
       #   mkdir -p /var/lib/k3s-volumes/var-lib-grafana/
       #   chown 472:472 /var/lib/k3s-volumes/var-lib-grafana/
       #   chmod 700 /var/lib/k3s-volumes/var-lib-grafana/
       #
-      # FIXME: what if the UID or GID change?
-      initContainers:
-      - name: "chown-n-chmod"
-        image: "busybox:1.31"
-        command: ["sh", "-c", "chown 472:472 /d && chmod 700 /d"]
-        volumeMounts:
-        - mountPath: "/d"
-          name: "var-lib-grafana"
+      # # FIXME: what if the UID or GID change?
+      # initContainers:
+      # - name: "chown-n-chmod"
+      #   image: "busybox:1.31"
+      #   command: ["sh", "-c", "chown 472:472 /d && chmod 700 /d"]
+      #   volumeMounts:
+      #   - mountPath: "/d"
+      #     name: "var-lib-grafana"
 
       # Volumes used by some or all containers of the Pod:
       volumes:
@@ -75,9 +79,8 @@ spec:
         configMap:
           name: "dashboards"
       - name: "var-lib-grafana"
-        hostPath:
-          path: "/var/lib/k3s-volumes/var-lib-grafana"
-          type: "DirectoryOrCreate"
+        persistentVolumeClaim:
+          claimName: "grafana"
 ---
 apiVersion: v1
 kind: Service
