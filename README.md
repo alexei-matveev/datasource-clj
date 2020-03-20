@@ -14,12 +14,13 @@ Kubernetes.
     kubectl config set-context --current --namespace=datasource-clj
     kubectl apply -k ./k3s
 
-Then  point  your  browser to  [URL](http://grafana.localhost).   Data
-source  and  a  simple  demo  [dashboard](./k3s/simple-dashboard.json)
-should have been provisioned by "kubectl apply" as well.  This Grafana
-instance  makes use  of  the datasource  running in  the  same pod  at
-http://localhost:8080 --- localhost from  the inside of container, not
-your laptop hosting k3s. See [datasources](./k3s/datasources.yaml).
+Then point your browser to [URL](http://grafana.localhost). First time
+login  will   be  admin:admin.    Data  source   and  a   simple  demo
+[dashboard](./k3s/simple-dashboard.json) should  have been provisioned
+by "kubectl  apply" as well.  This  Grafana instance makes use  of the
+datasource  running  in  the  same pod  at  http://localhost:8080  ---
+localhost  from  the inside  of  container,  not your  laptop  hosting
+k3s. See [datasources](./k3s/datasources.yaml).
 
 ## Start Grafana with Docker
 
