@@ -1,11 +1,11 @@
-# Grafana SimpleJson Datasource Backend in Clojure
+# Grafana SimpleJson Data Source Backend in Clojure
 
 A Clojure Implementation of the Data Source Backend for
 [SimpleJson](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)
 Grafana Plugin.  See also generic infos for
 [plugins](https://grafana.com/docs/grafana/latest/plugins/developing/datasources/).
 
-## Start Datasource & Grafana with Kubernetes
+## Start Data Source & Grafana with Kubernetes
 
 Use e.g. [k3s](https://github.com/rancher/k3s) as no bullsh*t
 Kubernetes.
@@ -18,9 +18,14 @@ Then point your browser to [URL](http://grafana.localhost). First time
 login  will   be  admin:admin.    Data  source   and  a   simple  demo
 [dashboard](./k3s/simple-dashboard.json) should  have been provisioned
 by "kubectl  apply" as well.  This  Grafana instance makes use  of the
-datasource  running  in  the  same pod  at  http://localhost:8080  ---
-localhost  from  the inside  of  container,  not your  laptop  hosting
-k3s. See [datasources](./k3s/datasources.yaml).
+data  source running  in  the same  pod  at http://localhost:8080  ---
+localhost from the inside of the pod, not your laptop hosting k3s. See
+[datasources](./k3s/datasources.yaml).   The  Docker  Image  for  data
+source     backend    ist     taken    from     Docker    Hub,     see
+[Deployment](./k3s/deployment.yaml).
+
+FIXME: how to quickly try a locally modified Datasource Backend during
+development?
 
 ## Start Grafana with Docker
 
