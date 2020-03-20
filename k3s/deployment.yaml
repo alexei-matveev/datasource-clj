@@ -116,7 +116,7 @@ spec:
   selector:
     component: grafana
   ports:
-  - port: 3000
+  - port: 80
     targetPort: 3000
 ---
 #
@@ -154,7 +154,7 @@ spec:
       paths:
       - backend:
           serviceName: grafana
-          servicePort: 3000
+          servicePort: 80
 ---
 # https://github.com/rancher/local-path-provisioner
 apiVersion: v1
