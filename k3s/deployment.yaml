@@ -104,6 +104,22 @@ spec:
     targetPort: 3000
 ---
 #
+# This service schould make the data source available to other Pods in
+# the future:
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: datasource
+spec:
+  type: ClusterIP
+  selector:
+    component: datasource
+  ports:
+  - port: 8080
+    targetPort: 8080
+---
+#
 # We assume here that *.localhost resolves to the local machine.  Following
 # URLs should be directed to Grafana.
 #
