@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment
+  name: datasource
 spec:
   replicas: 1
   selector:
@@ -15,15 +15,31 @@ spec:
     spec:
       containers:
       # Data source backend serving  metrics accessed by Grafana. This
-      # datasource      is      accessed     from      Grafana      at
-      # http://localhost:8080. When in  development will probably have
-      # to change that URL in Grafana UI ...
+      # datasource  is  accessed  from Grafana  at  http://datasource,
+      # siehe Service  definition below. When in  development you will
+      # probably  have  to  change  either  the  URL  or  the  Service
+      # definition. This image is is always the same ...
       - name: datasource
         image: f0bec0d/datasource-clj@sha256:5cd58eac7f1f1111892c5c4a182170759825d8ddcf1dca2524084f2284a478c5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: grafana
+  template:
+    metadata:
+      labels:
+        component: grafana
+    spec:
+      containers:
       # Grafana frontend for demo & devel:
       - name: grafana
         image: grafana/grafana:6.7.1
@@ -98,7 +114,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    component: datasource
+    component: grafana
   ports:
   - port: 3000
     targetPort: 3000
