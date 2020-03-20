@@ -3,7 +3,10 @@ apiVersion: 1
 datasources:
   - name: "datasource-clj"
     type: "grafana-simple-json-datasource"
-    url: "http://localhost:8080"
+    # Resolving  services  on  non-default   port  would  probably  be
+    # cumbersome.  The  hostname here  ist  the  same as  the  service
+    # defined in Deployment:
+    url: "http://datasource"
     access: "proxy"
     basicAuth: false
     database: ""

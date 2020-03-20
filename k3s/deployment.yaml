@@ -105,7 +105,8 @@ spec:
 ---
 #
 # This service schould make the data source available to other Pods in
-# the future:
+# the future:. Resolving  Services on ports other that  default HTTP &
+# HTTPS ports would probably be more cumbersome.
 #
 apiVersion: v1
 kind: Service
@@ -116,7 +117,7 @@ spec:
   selector:
     component: datasource
   ports:
-  - port: 8080
+  - port: 80
     targetPort: 8080
 ---
 #
