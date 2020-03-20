@@ -1,6 +1,8 @@
 # kubectl apply -k .
 namespace: datasource-clj
-namePrefix: "datasource-"
+# Services would also get a prefix/suffix so that hardcoded references
+# to services in code will break if you change this:
+namePrefix: ""
 nameSuffix: ""
 commonLabels:
   app: "datasource"
