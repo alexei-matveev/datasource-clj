@@ -82,6 +82,15 @@ spec:
         persistentVolumeClaim:
           claimName: "grafana"
 ---
+#
+# There  is an  option do  define  Service without  selectors and  the
+# corresponding Endpoints  separately. But if  you want to  point your
+# Grafana to  such a service that  ist either a Cluster  Service or an
+# external  service  you probably  better  separate  Grafana and  Data
+# Source into Pods on their own.
+#
+# [1] https://kubernetes.io/docs/concepts/services-networking/service/
+#
 apiVersion: v1
 kind: Service
 metadata:
