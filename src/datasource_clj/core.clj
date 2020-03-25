@@ -116,9 +116,10 @@
      :datapoints datapoints}))
 
 (defn fake-table []
-  ;; Earlier examples did not use  sort/desc, will it be understood by
-  ;; all grafana versions?
-  {:columns [{:text "Time", :type "time", :sort true, :desc true},
+  ;; FIXME:  Earlier examples  did not  use sort/desc,  ist it  really
+  ;; understood by all grafana versions? "Time" column seems to always
+  ;; be sorted ...
+  {:columns [{:text "Time", :type "time", :sort false, :desc false}
              {:text "Country", :type "string"},
              {:text "Number", :type "number"}],
    ;; The  rows  are  intentionally  not sorted,  see  the  digit  for
