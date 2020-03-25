@@ -136,16 +136,17 @@ spec:
     targetPort: 3000
 ---
 #
-# We assume here that *.localhost resolves to the local machine.  Following
-# URLs should be directed to Grafana.
+# We  assume here  that  *.localhost resolves  to  the local  machine.
+# Following URLs  should be  directed to corresponding  Services, also
+# with https:// protocoll:
 #
 #     http://grafana.localhost
-#     https://grafana.localhost
+#     http://datasource.localhost
 #
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ingress
+  name: grafana
 spec:
   rules:
   - host: grafana.localhost
@@ -153,6 +154,19 @@ spec:
       paths:
       - backend:
           serviceName: grafana
+          servicePort: 80
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: datasource
+spec:
+  rules:
+  - host: datasource.localhost
+    http:
+      paths:
+      - backend:
+          serviceName: datasource
           servicePort: 80
 ---
 # https://github.com/rancher/local-path-provisioner
