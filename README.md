@@ -5,7 +5,7 @@ A Clojure Implementation of the Data Source Backend for
 Grafana Plugin.  See also generic infos for
 [plugins](https://grafana.com/docs/grafana/latest/plugins/developing/datasources/).
 
-## Start Data Source & Grafana with Kubernetes
+## Data Source & Grafana with Kubernetes
 
 Use e.g. [k3s](https://github.com/rancher/k3s) as no bullsh*t
 Kubernetes.
@@ -24,8 +24,18 @@ localhost from the inside of the pod, not your laptop hosting k3s. See
 source     backend    ist     taken    from     Docker    Hub,     see
 [Deployment](./k3s/deployment.yaml).
 
-FIXME: how to quickly try a locally modified Datasource Backend during
-development?
+## Running Data Source interactively
+
+During development  where you want  to quickly try a  locally modified
+Data Source backend you may consider running
+
+    $ lein run
+
+or even  start it in  the CIDER REPL. The  data source will  listen at
+0.0.0.0:8080,  outside  of  Kubernetes.   Then  point  the  Kubernetes
+Service  there  by  replacing  the   Pod  selector  with  an  explicit
+"external"      IP      in      the     Edpoints      object,      see
+[Deployment](./k3s/deployment.yaml).
 
 ## Start Grafana with Docker
 
