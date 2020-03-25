@@ -117,11 +117,23 @@ metadata:
   name: datasource
 spec:
   type: ClusterIP
+  # For development, comment this  selector, uncomment and specify the
+  # external IP in the Endponts object below:
   selector:
     component: datasource
   ports:
   - port: 80
     targetPort: 8080
+# ---
+# apiVersion: v1
+# kind: Endpoints
+# metadata:
+#   name: datasource
+# subsets:
+#   - addresses:
+#       - ip: 192.168.0.4         # <- Specify your IP here
+#     ports:
+#       - port: 8080
 ---
 apiVersion: v1
 kind: Service
