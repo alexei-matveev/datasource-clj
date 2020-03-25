@@ -35,7 +35,10 @@ or even  start it in  the CIDER REPL. The  data source will  listen at
 0.0.0.0:8080,  outside  of  Kubernetes.   Then  point  the  Kubernetes
 Service  there  by  replacing  the   Pod  selector  with  an  explicit
 "external"      IP      in      the     Edpoints      object,      see
-[Deployment](./k3s/deployment.yaml).
+[Deployment](./k3s/deployment.yaml).  To see  the  Endppoints you  are
+currently using issue
+
+    $ kubectl get ep
 
 ## Start Grafana with Docker
 
