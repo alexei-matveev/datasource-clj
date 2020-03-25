@@ -116,12 +116,16 @@
      :datapoints datapoints}))
 
 (defn fake-table []
-  {:columns [{:text "Time", :type "time"},
+  ;; Earlier examples did not use  sort/desc, will it be understood by
+  ;; all grafana versions?
+  {:columns [{:text "Time", :type "time", :sort true, :desc true},
              {:text "Country", :type "string"},
              {:text "Number", :type "number"}],
+   ;; The  rows  are  intentionally  not sorted,  see  the  digit  for
+   ;; seconds:
    :rows [[1569618012345, "SE", 123],
-          [1569618012345, "DE", 231],
-          [1569618012345, "US", 321]],
+          [1569618011345, "DE", 231],
+          [1569618013345, "US", 321]],
    :type "table"})
 
 ;; q = Body of the /query:
