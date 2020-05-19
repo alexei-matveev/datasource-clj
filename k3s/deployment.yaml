@@ -43,7 +43,7 @@ spec:
       # Grafana frontend for demo & devel. This comes from Docker Hub,
       # see https://hub.docker.com/r/grafana/grafana/tags
       - name: grafana
-        image: grafana/grafana:6.7.3
+        image: grafana/grafana:7.0.0 # 6.7.3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
