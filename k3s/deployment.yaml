@@ -56,13 +56,19 @@ spec:
           name: "dashboards"
         - mountPath: "/var/lib/grafana"
           name: "var-lib-grafana"
+        #
         # SimpleJson  Plugin  ist  not  installed  by  default.   This
         # environment setting  will trigger a download  from Internets
         # on container  start. Consider setting https_proxy  if plugin
-        # fails to download:
+        # fails        to        download.        The        Original,
+        # "grafana-simple-json-datasource",  does   not  seem   to  be
+        # maintained. Use  the SimPod Fork  [1] or both  in transition
+        # phase.
+        #
+        # [1] https://github.com/simPod/grafana-json-datasource
         env:
         - name: "GF_INSTALL_PLUGINS"
-          value: "grafana-simple-json-datasource"
+          value: "grafana-simple-json-datasource,simpod-json-datasource"
 
       #
       # The Volume must be writable  by Grafana user.  With local path
