@@ -18,4 +18,18 @@ datasources:
     typeLogoUrl: "public/plugins/grafana-simple-json-datasource/img/simpleJson_logo.svg"
     user: ""
     password: ""
+  - name: "JSON Datasource"
+    type: "simpod-json-datasource"
+    url: "http://datasource"
+    access: "proxy"
+    basicAuth: false
+    database: ""
+    # "id": 2
+    isDefault: false
+    jsonData: {}
+    orgId: 1
+    readOnly: false
+    typeLogoUrl: "public/plugins/simpod-json-datasource/img/json-logo.svg"
+    user: ""
+    password: ""
 
