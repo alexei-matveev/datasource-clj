@@ -40,9 +40,10 @@ spec:
         component: grafana
     spec:
       containers:
-      # Grafana frontend for demo & devel:
+      # Grafana frontend for demo & devel. This comes from Docker Hub,
+      # see https://hub.docker.com/r/grafana/grafana/tags
       - name: grafana
-        image: grafana/grafana:6.7.1
+        image: grafana/grafana:6.7.3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
