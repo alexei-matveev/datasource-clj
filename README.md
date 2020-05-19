@@ -58,7 +58,7 @@ Firewall, e.g.:
 Grafana does not seem to offer a way to export Datasources, use this
 [workaround](https://rmoff.net/2017/08/08/simple-export/import-of-data-sources-in-grafana/):
 
-    mkdir -p dir && curl -s "http://$ip:3000/api/datasources" -u admin:password | jq -c -M '.[]' | split -l 1 - dir/
+    mkdir -p dir && curl -s "http://grafana.localhost/api/datasources" -u admin:password | jq -c -M '.[]' | split -l 1 - dir/
 
 Here ths $ip could be the Pod IP.
 
