@@ -18,8 +18,10 @@ Then point your browser to [URL](http://grafana.localhost). First time
 login  will   be  admin:admin.    Data  source   and  a   simple  demo
 [dashboard](./k3s/simple-dashboard.json) should  have been provisioned
 by "kubectl  apply" as well.  This  Grafana instance makes use  of the
-data  source running  in  the same  pod  at http://localhost:8080  ---
-localhost from the inside of the pod, not your laptop hosting k3s. See
+data source at http://datasource made available at this name & port by
+the Kubernetes Service.  The Clojure  process inside the pod should be
+addressed at  http://localhost:8080 ---  that is the  "localhost" from
+the inside  of the pod, not  your laptop hosting k3s,  of course.  See
 [datasources](./k3s/datasources.yaml).   The  Docker  Image  for  data
 source     backend    ist     taken    from     Docker    Hub,     see
 [Deployment](./k3s/deployment.yaml).
@@ -59,8 +61,6 @@ Grafana does not seem to offer a way to export Datasources, use this
 [workaround](https://rmoff.net/2017/08/08/simple-export/import-of-data-sources-in-grafana/):
 
     mkdir -p dir && curl -s "http://grafana.localhost/api/datasources" -u admin:password | jq -c -M '.[]' | split -l 1 - dir/
-
-Here ths $ip could be the Pod IP.
 
 ## License
 
