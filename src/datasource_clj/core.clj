@@ -81,6 +81,9 @@
     {:range {:from "2019-09-27T15:00:12.345Z",
              :to   "2019-09-27T21:00:12.345Z",
              :raw {:from "now-6h", :to "now"}},
+     ;; The  SimPod version  of  the  data source  may  issue a  query
+     ;; without   :type,  or   with   type   =  "timeseries"   spelled
+     ;; differently.
      :targets [{:target "cosine", :refId "A", :hide false, :type "timeserie"}],
      :intervalMs 6000000, ; intentionally increased x 100 for use in tests
      :interval "1m",      ; originally 1m = 60000 ms
@@ -138,8 +141,25 @@
       (case (:type t)
         "timeserie"
         (fake-timeserie (:target t) start end step)
+        ;; Type  "timeseries"  spelled like  this  is  used by  SimPod
+        ;; Version. So  far observed  in the Edit  Mode. Treat  it the
+        ;; same as "timeserie" ...
+        "timeseries"
+        (fake-timeserie (:target t) start end step)
         "table"
-        (fake-table)))))
+        (fake-table)
+        ;;
+        ;; An  Exception   leads  to  an  HTTP   500  Internal  Server
+        ;; Error. Stack trace  is visible in the Container  logs or in
+        ;; the terminal window with "lein run".
+        ;;
+        ;; This was  observed in  Edit Mode, the  only Target  look in
+        ;; this case as {:data nil,  :refId "A"}. Apparently one needs
+        ;; to "select metric" for a  more complete request.  It is not
+        ;; clear what one should return when neither :type nor :target
+        ;; is supplied ...
+        ;;
+        (throw (ex-info "Unknown target type in the query!" q))))))
 
 (comment
   (query example-query)
