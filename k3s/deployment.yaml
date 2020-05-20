@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
       # Data source backend serving  metrics accessed by Grafana. This
-      # datasource  is  accessed  from Grafana  at  http://datasource,
-      # siehe Service  definition below. When in  development you will
+      # data source is accessed from Grafana at http://datasource, see
+      # Service  definition  below.   When  in  development  you  will
       # probably  have  to  change  either  the  URL  or  the  Service
-      # definition. This image is is always the same ...
+      # definition. See comments below ...
       - name: datasource
         image: f0bec0d/datasource-clj@sha256:5cd58eac7f1f1111892c5c4a182170759825d8ddcf1dca2524084f2284a478c5
         imagePullPolicy: IfNotPresent
@@ -124,8 +124,8 @@ metadata:
   name: datasource
 spec:
   type: ClusterIP
-  # For development, comment this  selector, uncomment and specify the
-  # external IP in the Endponts object below:
+  # For development,  comment the selector  in the follwing  two lines
+  # and uncomment the Endponts object below specifying the correct IP.
   selector:
     component: datasource
   ports:
