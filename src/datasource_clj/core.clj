@@ -139,12 +139,11 @@
         step (:intervalMs q)]
     (for [t targets]
       (case (:type t)
-        "timeserie"
-        (fake-timeserie (:target t) start end step)
         ;; Type  "timeseries"  spelled like  this  is  used by  SimPod
-        ;; Version. So  far observed  in the Edit  Mode. Treat  it the
-        ;; same as "timeserie" ...
-        "timeseries"
+        ;; Version.   So far  observed in  the Edit  Mode also  in the
+        ;; docs.  The older  Simple Json data source used  to spell it
+        ;; "timeserie".  Treat both the same was ...
+        ("timeseries" "timeserie")
         (fake-timeserie (:target t) start end step)
         "table"
         (fake-table)
@@ -153,7 +152,7 @@
         ;; Error. Stack trace  is visible in the Container  logs or in
         ;; the terminal window with "lein run".
         ;;
-        ;; This was  observed in  Edit Mode, the  only Target  look in
+        ;; This was observed  in Edit Mode, the only  Target looken in
         ;; this case as {:data nil,  :refId "A"}. Apparently one needs
         ;; to "select metric" for a  more complete request.  It is not
         ;; clear what one should return when neither :type nor :target
