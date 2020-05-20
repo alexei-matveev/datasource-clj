@@ -11,6 +11,11 @@
 #     sudo docker login
 #     sudo docker push f0bec0d/datasource-clj:$t
 #
+# To update the latest:
+#
+#     sudo docker tag f0bec0d/datasource-clj:$t f0bec0d/datasource-clj:latest
+#     sudo docker push f0bec0d/datasource-clj:latest
+#
 # To run a container issue
 #
 #     sudo docker run --rm -itd -p 8080:8080 f0bec0d/datasource-clj:$t
