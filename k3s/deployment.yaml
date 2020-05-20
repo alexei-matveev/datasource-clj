@@ -20,7 +20,8 @@ spec:
       # probably  have  to  change  either  the  URL  or  the  Service
       # definition. See comments below ...
       - name: datasource
-        image: f0bec0d/datasource-clj@sha256:5cd58eac7f1f1111892c5c4a182170759825d8ddcf1dca2524084f2284a478c5
+        # docker inspect f0bec0d/datasource-clj:0.1 | jq '.[0].RepoDigests[0]'
+        image: f0bec0d/datasource-clj@sha256:c17e387826875c60f728fe7b65b0f47ea5d96e555215ce4c69f5f7e89a9c4c53
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
