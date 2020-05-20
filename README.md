@@ -1,8 +1,10 @@
-# Grafana SimpleJson Data Source Backend in Clojure
+# Grafana Json Data Source Backend in Clojure
 
 A Clojure Implementation of the Data Source Backend for
 [SimpleJson](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)
-Grafana Plugin.  See also generic infos for
+Grafana Plugin and/or its more maintained
+[SimPod](https://github.com/simPod/grafana-json-datasource) fork.  See
+also generic infos for
 [plugins](https://grafana.com/docs/grafana/latest/plugins/developing/datasources/).
 
 ## Data Source & Grafana with Kubernetes
