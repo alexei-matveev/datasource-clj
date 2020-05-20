@@ -198,7 +198,11 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+  # When you  dont specify  storage class at  all the  default storage
+  # class may be chosen. In k3s with local-path provisioner it is also
+  # the  default one.  Omitted  storageClassName is  not  the same  as
+  # storageClassName = "".
+  # storageClassName: local-path
   resources:
     requests:
       storage: 1Gi
