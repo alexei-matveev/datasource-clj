@@ -1,5 +1,10 @@
+#
 # You cannot delete packages in  public repositories on GitHub!  Think
-# twice befor you push!
+# twice befor you push!  You also cannot pull from public repositories
+# without auth [1], so think again.
+#
+# [1] https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/td-p/32782/page/5
+#
 name: Docker Image CI
 on: [push]
 jobs:
