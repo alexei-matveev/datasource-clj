@@ -14,7 +14,7 @@
 #
 #     docker run --rm -itd -p 8080:8080 f0bec0d/datasource-clj
 #
-FROM clojure:lein AS builder
+FROM clojure:openjdk-11-lein AS builder
 WORKDIR /work
 ADD project.clj .
 RUN find . && lein deps
@@ -25,7 +25,7 @@ ADD src src
 # project file above change.
 RUN find . && lein uberjar
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:11.0-jre-slim
 MAINTAINER alexei.matveev@gmail.com
 WORKDIR /app
 
