@@ -3,16 +3,17 @@
 #
 # Execute multistage build by
 #
-#     docker build -t f0bec0d/datasource-clj .
+#     t=0.1
+#     sudo docker build -t f0bec0d/datasource-clj:$t .
 #
 # and push it to Docker Hub:
 #
-#     docker login
-#     docker push f0bec0d/datasource-clj
+#     sudo docker login
+#     sudo docker push f0bec0d/datasource-clj:$t
 #
 # To run a container issue
 #
-#     docker run --rm -itd -p 8080:8080 f0bec0d/datasource-clj
+#     sudo docker run --rm -itd -p 8080:8080 f0bec0d/datasource-clj:$t
 #
 FROM clojure:openjdk-11-lein AS builder
 WORKDIR /work
