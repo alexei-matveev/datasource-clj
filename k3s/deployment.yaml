@@ -44,7 +44,8 @@ spec:
       # Grafana frontend for demo & devel. This comes from Docker Hub,
       # see https://hub.docker.com/r/grafana/grafana/tags
       - name: grafana
-        image: grafana/grafana:7.0.6 # 6.7.3
+        # NOTE: update to 7.1 breaks dashboard:
+        image: grafana/grafana:7.0.6
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
@@ -69,8 +70,9 @@ spec:
         # [2] https://grafana.com/grafana/plugins/simpod-json-datasource
         # [3] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
         env:
+          # NOTE: update to 0.2.0 breaks dashboard:
         - name: "GF_INSTALL_PLUGINS"
-          value: "simpod-json-datasource 0.1.7"
+          value: "simpod-json-datasource 0.1.8"
 
       #
       # The Volume must be writable  by Grafana user.  With local path
