@@ -70,7 +70,7 @@ spec:
         # [3] https://grafana.com/grafana/plugins/grafana-simple-json-datasource
         env:
         - name: "GF_INSTALL_PLUGINS"
-          value: "grafana-simple-json-datasource 1.4.0,simpod-json-datasource 0.1.7"
+          value: "simpod-json-datasource 0.1.7"
 
       #
       # The Volume must be writable  by Grafana user.  With local path
