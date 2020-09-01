@@ -1,9 +1,10 @@
 #
 # You cannot delete packages in  public repositories on GitHub!  Think
 # twice befor you push!  You also cannot pull from public repositories
-# without auth [1], so think again.
+# without auth [1] but this could change, eventually [2].
 #
 # [1] https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/td-p/32782/page/5
+# [2] https://github.blog/2020-09-01-introducing-github-container-registry/
 #
 name: Docker Image CI
 on: [push]
@@ -13,10 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build and tag image
-      run: docker build -t "docker.pkg.github.com/$GITHUB_REPOSITORY/datasource-clj:latest" .
+      run: docker build -t "ghcr.io/$GITHUB_REPOSITORY/datasource-clj:latest" .
     - name: Docker login
-      run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
+      run: docker login ghcr.io -u $GITHUB_ACTOR -p $GITHUB_TOKEN
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Publish to GPR
-      run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/datasource-clj:latest"
+      run: docker push "ghcr.io/$GITHUB_REPOSITORY/datasource-clj:latest"
