@@ -21,7 +21,8 @@ spec:
       # definition. See comments below ...
       - name: datasource
         # docker inspect f0bec0d/datasource-clj:0.1 | jq '.[0].RepoDigests[0]'
-        image: f0bec0d/datasource-clj@sha256:c17e387826875c60f728fe7b65b0f47ea5d96e555215ce4c69f5f7e89a9c4c53
+        # image: f0bec0d/datasource-clj@sha256:c17e387826875c60f728fe7b65b0f47ea5d96e555215ce4c69f5f7e89a9c4c53
+        image: registry.gitlab.com/f0bec0d/datasource-clj:gitlab-1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
