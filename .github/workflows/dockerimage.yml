@@ -1,10 +1,12 @@
 #
 # You cannot delete packages in  public repositories on GitHub!  Think
 # twice befor you push!  You also cannot pull from public repositories
-# without auth [1] but this could change, eventually [2].
+# without  auth  [1] but  this  could  change, eventually  [2].  Login
+# credentials for ghcr.io seem to be handled differently [3].
 #
 # [1] https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/td-p/32782/page/5
 # [2] https://github.blog/2020-09-01-introducing-github-container-registry/
+# [3] https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images
 #
 name: Docker Image CI
 on: [push]
@@ -16,8 +18,7 @@ jobs:
     - name: Build and tag image
       run: docker build -t "ghcr.io/$GITHUB_REPOSITORY/datasource-clj:latest" .
     - name: Docker login
-      run: docker login ghcr.io -u $GITHUB_ACTOR -p $GITHUB_TOKEN
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      # New login with new container registry url and PAT:
+      run: echo ${{secrets.CR_PAT}} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
     - name: Publish to GPR
       run: docker push "ghcr.io/$GITHUB_REPOSITORY/datasource-clj:latest"
