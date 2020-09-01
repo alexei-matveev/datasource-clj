@@ -3,7 +3,8 @@
 # twice befor you push!  You also cannot pull from public repositories
 # without  auth [1]  but  this could  change,  eventually [2].   Login
 # credentials for ghcr.io seem to be handled differently [3]. You will
-# need to create a secret yourself [4].
+# need to generate a Personal Access  Token (PAT) and set a reposotory
+# Secret yourself [4].
 #
 # [1] https://github.community/t5/GitHub-Actions/docker-pull-from-public-GitHub-Package-Registry-fail-with-quot/td-p/32782/page/5
 # [2] https://github.blog/2020-09-01-introducing-github-container-registry/
